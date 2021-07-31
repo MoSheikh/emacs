@@ -91,6 +91,11 @@
 (use-package telephone-line
   :init (telephone-line-mode 1))
 
+(use-package moom
+  :init
+  (moom-mode 1)
+  (define-key moom-mode-map (kbd "<f2>") 'moom-cycle-frame-height))
+
 ;; minimap currently disabled
 ;; (minimap-mode)
 
@@ -144,7 +149,7 @@
  '(minimap-width-fraction 0.05)
  '(minimap-window-location 'right)
  '(package-selected-packages
-   '(golden-ratio magit telephone-line golden-ratio-scroll-screen golden-ratoi-scroll-screen which-key use-package sublimity powerline monokai-pro-theme minimap jetbrains-darcula-theme ample-zen-theme ample-theme ace-window)))
+   '(moom golden-ratio magit telephone-line golden-ratio-scroll-screen golden-ratoi-scroll-screen which-key use-package sublimity powerline monokai-pro-theme minimap jetbrains-darcula-theme ample-zen-theme ample-theme ace-window)))
 
 ; LocalWords:  aspell monokai
 (custom-set-faces
