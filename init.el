@@ -4,6 +4,9 @@
 (setq ispell-program-name "/usr/local/bin/aspell")
 (setq backup-directory-alist '(("." . "~/.emacs.d/saves")))
 
+(if (eq system-type 'darwin)
+    (setq mac-right-command-modifier 'meta))
+
 ;; WIP
 ;; (global-set-key (kbd "C-v") 'View-scroll-half-page-up)
 ;; (global-set-key (kbd "M-v") 'View-scroll-half-page-down)
