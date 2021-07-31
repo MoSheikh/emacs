@@ -4,5 +4,8 @@
 # files being edited
 \#*\#
 
+# lock files
+.\#*
+
 # elpa packages
 elpa/
