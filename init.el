@@ -2,6 +2,7 @@
 (setq byte-compile-warnings '(cl-functions))
 (setq inhibit-startup-message t)
 (setq ispell-program-name "/usr/local/bin/aspell")
+(setq backup-directory-alist '(("." . "~/.emacs/saves")))
 
 ;; WIP
 ;; (global-set-key (kbd "C-v") 'View-scroll-half-page-up)
@@ -45,7 +46,9 @@
   (which-key-mode))
 
 
-;; manual installation to workaround bug
+;; manual installation to work around bug
+;; enables quick navigation using via searching
+
 (add-to-list 'load-path "/Users/mo/.emacs.d/plugins/")
 (autoload
   'ace-jump-mode
@@ -64,19 +67,26 @@
 (define-key global-map (kbd "C-x SPC") 'ace-jump-mode-pop-mark)
 
 
+;; allow quicker switching between windows
 (use-package ace-window
   :init
   (global-set-key (kbd "M-o") 'ace-window))
 
-(minimap-mode)
+;; allow for .618 * width scroll + highlight after scroll
+(use-package golden-ratio-scroll-screen
+  :config
+  (global-set-key [remap scroll-down-command] 'golden-ratio-scroll-screen-down)
+  (global-set-key [remap scroll-up-command] 'golden-ratio-scroll-screen-up))
 
+;; minimap currently disabled
+;; (minimap-mode)
 
 ;; non-working ace-jump-mode configuration
-;;
+
 ;; (use-package ace-jump-mode
 ;;   :config
-;;   (define-key global-map (kbd "M-SPC") 'ace-jump-mode))
-;;
+;;   (define-key global-map (kbd "M-SPC") 'ace-jump-mode));
+
 ;; (autoload
 ;;   'ace-jump-mode-pop-mark
 ;;   "ace-jump-mode"
@@ -86,22 +96,6 @@
 ;; (eval-after-load "ace-jump-mode"
 ;;   '(ace-jump-mode-enable-mark-sync))
 ;; (define-key global-map (kbd "C-x SPC") 'ace-jump-mode-pop-mark)
-
-
-;; causes endless recursive call when using "load-theme"
-;;
-;; (use-package sublimity
-;;   :config
-;;   (sublimity-mode 1))
-
-;; (require 'sublimity)
-;; (require 'sublimity-scroll)
-;; (require 'sublimity-map)
-;; (require 'sublimity-attractive)
-
-;; (setq sublimity-scroll-weight 10
-;;       sublimity-scroll-drift-length 5)
-;; (sublimity-map-set-delay 0)
 
 
 ;; themes
@@ -117,6 +111,7 @@
   :init (progn (load-theme 'ample t t)
 	       (enable-theme 'ample)))
 
+(load-theme 'monokai-pro t)
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -134,7 +129,9 @@
  '(minimap-hide-fringes t)
  '(minimap-hide-scroll-bar nil)
  '(minimap-width-fraction 0.05)
- '(minimap-window-location 'right))
+ '(minimap-window-location 'right)
+ '(package-selected-packages
+   '(golden-ratio-scroll-screen golden-ratoi-scroll-screen which-key use-package sublimity powerline monokai-pro-theme minimap jetbrains-darcula-theme ample-zen-theme ample-theme ace-window)))
 
 ; LocalWords:  aspell monokai
 (custom-set-faces
@@ -142,4 +139,5 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(golden-ratio-scroll-highlight-line-face ((t (:extend t :background "dark gray" :foreground "white" :weight bold))))
  '(minimap-active-region-background ((t (:extend t :background "#292A2B")))))
