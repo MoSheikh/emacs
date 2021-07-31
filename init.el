@@ -99,6 +99,17 @@
   (moom-mode 1)
   (define-key moom-mode-map (kbd "<f2>") 'moom-cycle-frame-height))
 
+(use-package helm)
+(use-package helm-searcher)
+(global-set-key (kbd "M-x") 'helm-M-x))
+
+;; (use-package ivy)
+
+;; (ivy-mode)
+;; (setq ivy-use-virtual-buffers t)
+;; (setq enable-recursive-minibuffers t)
+;; (global-set-key "\C-s" 'swiper)
+
 ;; minimap currently disabled
 ;; (minimap-mode)
 
@@ -152,7 +163,7 @@
  '(minimap-width-fraction 0.05)
  '(minimap-window-location 'right)
  '(package-selected-packages
-   '(moom golden-ratio magit telephone-line golden-ratio-scroll-screen golden-ratoi-scroll-screen which-key use-package sublimity powerline monokai-pro-theme minimap jetbrains-darcula-theme ample-zen-theme ample-theme ace-window)))
+   '(helm-searcher ivy helm moom golden-ratio magit telephone-line golden-ratio-scroll-screen golden-ratoi-scroll-screen which-key use-package sublimity powerline monokai-pro-theme minimap jetbrains-darcula-theme ample-zen-theme ample-theme ace-window)))
 
 ; LocalWords:  aspell monokai
 (custom-set-faces
