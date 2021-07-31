@@ -42,7 +42,7 @@
 
 ;; utilities
 (use-package which-key
-  :config
+  :init
   (which-key-mode))
 
 
@@ -66,6 +66,8 @@
   '(ace-jump-mode-enable-mark-sync))
 (define-key global-map (kbd "C-x SPC") 'ace-jump-mode-pop-mark)
 
+;; git interface
+(use-package magit)
 
 ;; allow quicker switching between windows
 (use-package ace-window
@@ -74,23 +76,20 @@
 
 ;; allow for .618 * width scroll + highlight after scroll
 (use-package golden-ratio-scroll-screen
-  :config
+  :init
   (global-set-key [remap scroll-down-command] 'golden-ratio-scroll-screen-down)
   (global-set-key [remap scroll-up-command] 'golden-ratio-scroll-screen-up))
 
 ;; use 0.618 proportion for new windows
 (use-package golden-ratio
-  :config (golden-ratio-mode 1))
-
-;; git interface
-(use-package magit)
+  :init (golden-ratio-mode 1))
 
 (setq telephone-line-lhs
       '((accent . (telephone-line-vc-segment))))
 
 ;; cleaner bottom info ribbon
 (use-package telephone-line
-  :config (telephone-line-mode 1))
+  :init (telephone-line-mode 1))
 
 ;; minimap currently disabled
 ;; (minimap-mode)
