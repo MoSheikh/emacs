@@ -9,3 +9,6 @@
 
 # elpa packages
 elpa/
+
+# transient keymappings from magit
+transient/
