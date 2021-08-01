@@ -99,13 +99,18 @@
 (use-package telephone-line
   :init (telephone-line-mode 1))
 
-(use-package moom
-  :init
-  (moom-mode 1)
+(use-package moom)
+(with-eval-after-load "moom"
   (define-key moom-mode-map (kbd "<f2>") 'moom-cycle-frame-height)
-  (setq moom-use-font-module nil))
+  (setq moom-use-font-module nil)
+  (moom-mode 1))
 
 (moom-fill-left)
+
+;; (with-eval-after-load "moom"
+;;   (setq moom-use-font-module nil))
+
+;; (moom-toggle-font-module)
 
 (use-package helm :config (require 'helm-config))
 (use-package helm-searcher)
@@ -129,7 +134,7 @@
   :hook
   (typescript-mode . lsp))
 
-(setq typescript-indent-level-2)
+(setq typescript-indent-level 2)
 ;; (use-package ivy)
 
 ;; (ivy-mode)
