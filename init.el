@@ -14,8 +14,10 @@
 (setq inhibit-startup-message t)
 (defvar ispell-program-name "/usr/local/bin/aspell")
 
-
-(setq backup-directory-alist '(("." . "~/.emacs.d/saves")))
+;; configure backup to ~/.emacs.d/saves
+(setq backup-directory-alist '((".*" . "~/.emacs.d/saves")))
+(setq auto-save-file-name-transforms '((".*" "~/.emacs.d/saves" t)))
+(setq backup-by-copying t)
 
 ;; (add-to-list 'initial-frame-alist '(fullscreen . fullheight))
 ;; (add-to-list 'default-frame-alist '(fullscreen . fullheight))
@@ -23,6 +25,36 @@
 (if (eq system-type 'darwin)
     (setq mac-right-command-modifier 'meta)
     (setq ns-use-native-fullscreen t))
+
+
+(defun create-global-gitignore ()
+  "Save autosave ignore data in the '~/.config/git/ignore' location."
+  (progn
+    (make-directory "~/.config/git" :parents)
+    (write-region
+     "# ignore .emacs autosaves\n#*#\n"
+     nil
+     "~/.config/git/ignore"
+     :excl)))
+
+
+
+  ;; (defvar gitignore-stream)
+  ;; (with-open-file
+  ;;  (gitignore-stream "~/.config/git/ignore"
+  ;; 		     :direction :output
+  ;; 		     :if-exists nil)
+  ;;  (format gitignore-stream "# ignore .emacs autosaves\n#*#\n")))
+
+(if (not (file-exists-p "~/.config/git/ignore"))
+    (progn (create-global-gitignore)
+	   (message "Created global gitignore")))
+
+
+
+
+(mapconcat 'symbol-name '(a b c) ";")
+
 
 ;; WIP
 ;; (global-set-key (kbd "C-v") 'View-scroll-half-page-up)
@@ -151,6 +183,10 @@
 ;; js
 (setq-default js-indent-level 2)
 
+(use-package exec-path-from-shell)
+(when (memq window-system '(mac ns))
+  (exec-path-from-shell-initialize))
+
 ;; prettier
 (use-package prettier
   :hook
@@ -223,7 +259,7 @@
  '(minimap-width-fraction 0.05)
  '(minimap-window-location 'right)
  '(package-selected-packages
-   '(dap-mode helm-lsp lsp-ui lsp-mode typescript-mode prettier json-mode helm-searcher ivy helm moom golden-ratio magit telephone-line golden-ratio-scroll-screen golden-ratoi-scroll-screen which-key use-package sublimity powerline monokai-pro-theme minimap jetbrains-darcula-theme ample-zen-theme ample-theme ace-window)))
+   '(exec-path-from-shell dap-mode helm-lsp lsp-ui lsp-mode typescript-mode prettier json-mode helm-searcher ivy helm moom golden-ratio magit telephone-line golden-ratio-scroll-screen golden-ratoi-scroll-screen which-key use-package sublimity powerline monokai-pro-theme minimap jetbrains-darcula-theme ample-zen-theme ample-theme ace-window)))
 
 ; LocalWords:  aspell monokai
 (custom-set-faces

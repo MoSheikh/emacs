@@ -12,3 +12,9 @@ elpa/
 
 # transient keymappings from magit
 transient/
+
+# cache
+.cache/
+
+# language server session data
+.lsp-session-v1
