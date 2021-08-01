@@ -1,7 +1,20 @@
+;;; init.el --- Mo's Initialization file for Emacs
+
+;;; Commentary:
+;;
+;;
+;; WIP configuration for Emacs
+;;
+;;
+
+;;; Code:
+
 ;; suppress ace-jump-mode warnings
 (setq byte-compile-warnings '(cl-functions))
 (setq inhibit-startup-message t)
-(setq ispell-program-name "/usr/local/bin/aspell")
+(defvar ispell-program-name "/usr/local/bin/aspell")
+
+
 (setq backup-directory-alist '(("." . "~/.emacs.d/saves")))
 
 ;; (add-to-list 'initial-frame-alist '(fullscreen . fullheight))
@@ -23,7 +36,7 @@
 (tooltip-mode -1)
 (set-fringe-mode 10)
 
-(menu-bar-mode -1)	       
+(menu-bar-mode -1)
 ;; (set-visual-bell -1)
 
 ;; window switching via <S-Arrow> - replaced by ace-jump-window
@@ -65,6 +78,8 @@
   t)
 (define-key global-map (kbd "M-SPC") 'ace-jump-mode)
 
+(declare-function ace-jump-mode-enable-mark-sync 'ext:ace-jump-mode)
+
 (autoload
   'ace-jump-mode-pop-mark
   "ace-jump-mode"
@@ -92,7 +107,7 @@
 (use-package golden-ratio
   :init (golden-ratio-mode 1))
 
-(setq telephone-line-lhs
+(defvar telephone-line-lhs
       '((accent . (telephone-line-vc-segment))))
 
 ;; cleaner bottom info ribbon
@@ -116,6 +131,18 @@
 (use-package helm-searcher)
 (global-set-key (kbd "M-x") 'helm-M-x)
 
+
+(use-package lsp-mode
+  :init
+  (setq lsp-keymap-prefix "C-c 1")
+  :hook ((lsp-mode . lsp-enable-which-key-integration))
+  :commands lsp)
+
+(use-package lsp-ui :commands lsp-ui-mode)
+(use-package helm-lsp :commands helm-lsp-workspace-symbol)
+(use-package dap-mode)
+(use-package flycheck :init (global-flycheck-mode))
+
 (use-package json-mode
   :mode "\\.json$"
   :config
@@ -129,6 +156,7 @@
   :hook
   ((typescript-mode json-mode) . prettier-mode))
 
+;; ts
 (use-package typescript-mode
   :mode "\\.tsx?$"
   :hook
@@ -195,7 +223,7 @@
  '(minimap-width-fraction 0.05)
  '(minimap-window-location 'right)
  '(package-selected-packages
-   '(typescript-mode prettier json-mode helm-searcher ivy helm moom golden-ratio magit telephone-line golden-ratio-scroll-screen golden-ratoi-scroll-screen which-key use-package sublimity powerline monokai-pro-theme minimap jetbrains-darcula-theme ample-zen-theme ample-theme ace-window)))
+   '(dap-mode helm-lsp lsp-ui lsp-mode typescript-mode prettier json-mode helm-searcher ivy helm moom golden-ratio magit telephone-line golden-ratio-scroll-screen golden-ratoi-scroll-screen which-key use-package sublimity powerline monokai-pro-theme minimap jetbrains-darcula-theme ample-zen-theme ample-theme ace-window)))
 
 ; LocalWords:  aspell monokai
 (custom-set-faces
@@ -205,3 +233,7 @@
  ;; If there is more than one, they won't work right.
  '(golden-ratio-scroll-highlight-line-face ((t (:extend t :background "dark gray" :foreground "white" :weight bold))))
  '(minimap-active-region-background ((t (:extend t :background "#292A2B")))))
+
+
+
+;;; init.el ends here
