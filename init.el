@@ -4,13 +4,18 @@
 (setq ispell-program-name "/usr/local/bin/aspell")
 (setq backup-directory-alist '(("." . "~/.emacs.d/saves")))
 
+;; (add-to-list 'initial-frame-alist '(fullscreen . fullheight))
+;; (add-to-list 'default-frame-alist '(fullscreen . fullheight))
+
 (if (eq system-type 'darwin)
-    (setq mac-right-command-modifier 'meta))
+    (setq mac-right-command-modifier 'meta)
+    (setq ns-use-native-fullscreen t))
 
 ;; WIP
 ;; (global-set-key (kbd "C-v") 'View-scroll-half-page-up)
 ;; (global-set-key (kbd "M-v") 'View-scroll-half-page-down)
 
+(global-display-line-numbers-mode)
 (flyspell-prog-mode)
 (column-number-mode 1)
 (scroll-bar-mode -1)
@@ -97,12 +102,34 @@
 (use-package moom
   :init
   (moom-mode 1)
-  (define-key moom-mode-map (kbd "<f2>") 'moom-cycle-frame-height))
+  (define-key moom-mode-map (kbd "<f2>") 'moom-cycle-frame-height)
+  (setq moom-use-font-module nil))
 
-(use-package helm)
+(moom-fill-left)
+
+(use-package helm :config (require 'helm-config))
 (use-package helm-searcher)
-(global-set-key (kbd "M-x") 'helm-M-x))
+(global-set-key (kbd "M-x") 'helm-M-x)
 
+(use-package json-mode
+  :mode "\\.json$"
+  :config
+  (add-to-list 'flycheck-disabled-checkers 'json-python-json))
+
+;; js
+(setq-default js-indent-level 2)
+
+;; prettier
+(use-package prettier
+  :hook
+  ((typescript-mode json-mode) . prettier-mode))
+
+(use-package typescript-mode
+  :mode "\\.tsx?$"
+  :hook
+  (typescript-mode . lsp))
+
+(setq typescript-indent-level-2)
 ;; (use-package ivy)
 
 ;; (ivy-mode)
@@ -163,7 +190,7 @@
  '(minimap-width-fraction 0.05)
  '(minimap-window-location 'right)
  '(package-selected-packages
-   '(helm-searcher ivy helm moom golden-ratio magit telephone-line golden-ratio-scroll-screen golden-ratoi-scroll-screen which-key use-package sublimity powerline monokai-pro-theme minimap jetbrains-darcula-theme ample-zen-theme ample-theme ace-window)))
+   '(typescript-mode prettier json-mode helm-searcher ivy helm moom golden-ratio magit telephone-line golden-ratio-scroll-screen golden-ratoi-scroll-screen which-key use-package sublimity powerline monokai-pro-theme minimap jetbrains-darcula-theme ample-zen-theme ample-theme ace-window)))
 
 ; LocalWords:  aspell monokai
 (custom-set-faces
