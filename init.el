@@ -37,24 +37,9 @@
      "~/.config/git/ignore"
      :excl)))
 
-
-
-  ;; (defvar gitignore-stream)
-  ;; (with-open-file
-  ;;  (gitignore-stream "~/.config/git/ignore"
-  ;; 		     :direction :output
-  ;; 		     :if-exists nil)
-  ;;  (format gitignore-stream "# ignore .emacs autosaves\n#*#\n")))
-
-(if (not (file-exists-p "~/.config/git/ignore"))
-    (progn (create-global-gitignore)
-	   (message "Created global gitignore")))
-
-
-
-
-(mapconcat 'symbol-name '(a b c) ";")
-
+;; (if (not (file-exists-p "~/.config/git/ignore"))
+;;     (progn (create-global-gitignore)
+;; 	   (message "Created global gitignore")))
 
 ;; WIP
 ;; (global-set-key (kbd "C-v") 'View-scroll-half-page-up)
@@ -175,6 +160,8 @@
 (use-package dap-mode)
 (use-package flycheck :init (global-flycheck-mode))
 
+(setq lsp-ui-sideline-show-code-actions nil)
+
 (use-package json-mode
   :mode "\\.json$"
   :config
@@ -251,7 +238,7 @@
  '(ansi-term-color-vector
    [unspecified "#2d2a2e" "#ff6188" "#a9dc76" "#ffd866" "#78dce8" "#ab9df2" "#a1efe4" "#fcfcfa"] t)
  '(custom-safe-themes
-   '("24168c7e083ca0bbc87c68d3139ef39f072488703dcdd82343b8cab71c0f62a7" "5185a285365a768a30ac274bdbc4437e7fd2fbe3107a1b0f2b60e900181905e0" default))
+   '("b02eae4d22362a941751f690032ea30c7c78d8ca8a1212fdae9eecad28a3587f" "fb83a50c80de36f23aea5919e50e1bccd565ca5bb646af95729dc8c5f926cbf3" "36ca8f60565af20ef4f30783aa16a26d96c02df7b4e54e9900a5138fb33808da" "24168c7e083ca0bbc87c68d3139ef39f072488703dcdd82343b8cab71c0f62a7" "5185a285365a768a30ac274bdbc4437e7fd2fbe3107a1b0f2b60e900181905e0" default))
  '(minimap-dedicated-window nil)
  '(minimap-display-semantic-overlays t)
  '(minimap-hide-fringes t)
