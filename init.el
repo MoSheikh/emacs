@@ -16,9 +16,12 @@
 (global-set-key (kbd "C-c C-b") 'helm-buffers-list)
 ;; (global-set-key (kbd "C-c C-b") 'helm-mini)
 
+
 (define-prefix-command 'custom)
 (global-set-key (kbd "C-c C-c") 'custom)
-(global-set-key (kbd "C-c C-c f") 'helm-semantic-or-imenu)
+(global-set-key (kbd "C-c C-c t") 'helm-semantic-or-imenu)
+(global-set-key (kbd "C-x F") 'helm-projectile-find-file)
+
 
 (defvar desktop-buffers-not-to-save)
 (defvar desktop-path)
@@ -194,6 +197,8 @@
 (use-package projectile)
 (projectile-mode +1)
 (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
+
+(use-package helm-projectile)
 
 (use-package lsp-mode
   :init
@@ -373,7 +378,7 @@
  '(minimap-width-fraction 0.05)
  '(minimap-window-location 'right)
  '(package-selected-packages
-   '(company-jedi jedi company pipenv dockerfile-mode docker gitignore-mode gitconfig-mode gitattributes-mode gitattributes-modes projectile git-modes css-in-js rjsx-mode exec-path-from-shell dap-mode helm-lsp lsp-ui lsp-mode typescript-mode prettier json-mode helm-searcher ivy helm moom golden-ratio magit telephone-line golden-ratio-scroll-screen golden-ratoi-scroll-screen which-key use-package sublimity powerline monokai-pro-theme minimap jetbrains-darcula-theme ample-zen-theme ample-theme ace-window)))
+   '(helm-projectile company-jedi jedi company pipenv dockerfile-mode docker gitignore-mode gitconfig-mode gitattributes-mode gitattributes-modes projectile git-modes css-in-js rjsx-mode exec-path-from-shell dap-mode helm-lsp lsp-ui lsp-mode typescript-mode prettier json-mode helm-searcher ivy helm moom golden-ratio magit telephone-line golden-ratio-scroll-screen golden-ratoi-scroll-screen which-key use-package sublimity powerline monokai-pro-theme minimap jetbrains-darcula-theme ample-zen-theme ample-theme ace-window)))
 
 ; LocalWords:  aspell monokai
 (custom-set-faces
@@ -381,6 +386,7 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(aw-leading-char-face ((t (:foreground "#fc9867"))))
  '(company-preview-common ((t (:background "#403e41" :foreground "#bdbdb3"))))
  '(company-tooltip ((t (:inherit nil :background "gray14" :foreground "dark gray"))))
  '(company-tooltip-common ((t (:background "gray35" :foreground "gray90" :weight bold))))
