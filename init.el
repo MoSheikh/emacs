@@ -202,7 +202,10 @@
 (setq lsp-ui-sideline-show-code-actions nil)
 (setq lsp-headerline-breadcrumb-enable nil)
 
+;; dap for debugging
 (use-package dap-mode)
+(require 'dap-chrome)
+(require 'dap-python)
 (add-hook 'dap-stopped-hook
 	  (lambda (arg) (call-interactively #'dap-hydra)))
 (dap-mode 1)
@@ -210,7 +213,6 @@
 (dap-tooltip-mode 1)
 (tooltip-mode 1)
 (dap-ui-controls-mode 1)
-(require 'dap-chrome)
 
 (use-package json-mode
   :mode "\\.json$"
@@ -251,6 +253,20 @@
 
 (use-package docker)
 (use-package dockerfile-mode)
+
+
+(defvar pipenv-projectile-after-switch-function)
+(defvar pipenv-projectile-after-switch-extended)
+(declare-function pipenv-projectile-after-switch-extended ())
+(autoload 'pipenv-projectile-after-switch-extended "pipenv")
+(use-package pipenv
+  :hook (python-mode . pipenv-mode)
+  :init
+  (setq
+   pipenv-projectile-after-switch-function
+   #'pipenv-projectile-after-switch-extended)
+   :commands pipenv-projectile-after-switch-extended)
+
 
 ;; (use-package rjsx-mode
 ;;   :mode "\\.tsx?$")
@@ -315,7 +331,7 @@
  '(minimap-width-fraction 0.05)
  '(minimap-window-location 'right)
  '(package-selected-packages
-   '(dockerfile-mode docker gitignore-mode gitconfig-mode gitattributes-mode gitattributes-modes projectile git-modes css-in-js rjsx-mode exec-path-from-shell dap-mode helm-lsp lsp-ui lsp-mode typescript-mode prettier json-mode helm-searcher ivy helm moom golden-ratio magit telephone-line golden-ratio-scroll-screen golden-ratoi-scroll-screen which-key use-package sublimity powerline monokai-pro-theme minimap jetbrains-darcula-theme ample-zen-theme ample-theme ace-window)))
+   '(pipenv dockerfile-mode docker gitignore-mode gitconfig-mode gitattributes-mode gitattributes-modes projectile git-modes css-in-js rjsx-mode exec-path-from-shell dap-mode helm-lsp lsp-ui lsp-mode typescript-mode prettier json-mode helm-searcher ivy helm moom golden-ratio magit telephone-line golden-ratio-scroll-screen golden-ratoi-scroll-screen which-key use-package sublimity powerline monokai-pro-theme minimap jetbrains-darcula-theme ample-zen-theme ample-theme ace-window)))
 
 ; LocalWords:  aspell monokai
 (custom-set-faces
