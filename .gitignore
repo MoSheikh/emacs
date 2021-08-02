@@ -21,3 +21,13 @@ transient/
 
 # debugging breakpoints
 .dap-breakpoints
+
+# desktop save state
+.desktop
+.desktop.lock
+
+# projectile files
+*.eld
+
+#ignore recent changes
+recentf

@@ -15,14 +15,14 @@
 (defvar desktop-path)
 (defvar desktop-base-file-name)
 ;; persist sessions
-(desktop-save-mode 1)
+(desktop-save-mode t)
 (setq desktop-buffers-not-to-save
       (concat "\\("
 	      "\\.log\\|#*#"
 	      "\\)$"))
 
-(setq desktop-path '("~/.emacs.d/desktop"))
-(setq desktop-base-file-name "emacs-desktop")
+(setq desktop-path '("~/.emacs.d"))
+(setq desktop-base-file-name ".emacs.desktop")
 
 ;; suppress ace-jump-mode warnings
 (setq byte-compile-warnings '(cl-functions))
@@ -74,10 +74,12 @@
 ;; window switching via <S-Arrow> - replaced by ace-jump-window
 ;; (windmove-default-keybindings)
 
+(defvar flycheck-emacs-lisp-load-path)
+(setq flycheck-emacs-lisp-load-path 'inherit)
 (add-to-list 'load-path "~/.emacs.d/plugins/")
 (require 'package)
 (load "~/.emacs.d/plugins/config.el")
-(load "~/.emacs.d/plugins/config.el")
+(load "~/.emacs.d/plugins/css-in-js.el")
 (require 'css-in-js)
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
 (package-initialize)
@@ -173,9 +175,17 @@
 (global-set-key (kbd "M-x") 'helm-M-x)
 (global-set-key (kbd "C-x r b") 'helm-filtered-bookmarks)
 (global-set-key (kbd "C-x C-f") 'helm-find-files)
+(global-set-key (kbd "C-s") 'helm-occur)
+(global-set-key (kbd "M-z") 'helm-persistent-action)
 
 (helm-mode 1)
 (helm-autoresize-mode t)
+
+(use-package projectile)
+(projectile-mode +1)
+(define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
+
+
 
 (use-package lsp-mode
   :init
@@ -233,7 +243,12 @@
   "Add syntax highlighting for css snippets of js files"
   t)
 
- 
+(use-package gitattributes-mode)
+(use-package gitconfig-mode)
+(use-package gitignore-mode)
+
+(use-package docker)
+(use-package dockerfile-mode)
 
 ;; (use-package rjsx-mode
 ;;   :mode "\\.tsx?$")
@@ -298,7 +313,7 @@
  '(minimap-width-fraction 0.05)
  '(minimap-window-location 'right)
  '(package-selected-packages
-   '(css-in-js rjsx-mode exec-path-from-shell dap-mode helm-lsp lsp-ui lsp-mode typescript-mode prettier json-mode helm-searcher ivy helm moom golden-ratio magit telephone-line golden-ratio-scroll-screen golden-ratoi-scroll-screen which-key use-package sublimity powerline monokai-pro-theme minimap jetbrains-darcula-theme ample-zen-theme ample-theme ace-window)))
+   '(dockerfile-mode docker gitignore-mode gitconfig-mode gitattributes-mode gitattributes-modes projectile git-modes css-in-js rjsx-mode exec-path-from-shell dap-mode helm-lsp lsp-ui lsp-mode typescript-mode prettier json-mode helm-searcher ivy helm moom golden-ratio magit telephone-line golden-ratio-scroll-screen golden-ratoi-scroll-screen which-key use-package sublimity powerline monokai-pro-theme minimap jetbrains-darcula-theme ample-zen-theme ample-theme ace-window)))
 
 ; LocalWords:  aspell monokai
 (custom-set-faces
@@ -307,6 +322,7 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(golden-ratio-scroll-highlight-line-face ((t (:extend t :background "dark gray" :foreground "white" :weight bold))))
+ '(highlight ((t (:background "#353236" :foreground "#727072"))))
  '(minimap-active-region-background ((t (:extend t :background "#292A2B")))))
 
 
