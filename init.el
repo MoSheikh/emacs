@@ -10,6 +10,7 @@
 ;;; Code:
 
 (global-set-key (kbd "M-p") 'yank)
+(global-set-key (kbd "C-c C-d") 'kill-buffer-and-window)
 
 (defvar desktop-buffers-not-to-save)
 (defvar desktop-path)
