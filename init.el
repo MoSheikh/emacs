@@ -13,16 +13,6 @@
 (global-set-key (kbd "C-c q") 'kill-buffer-and-window)
 
 
-(global-set-key (kbd "C-c C-b") 'helm-buffers-list)
-;; (global-set-key (kbd "C-c C-b") 'helm-mini)
-
-
-(define-prefix-command 'custom)
-(global-set-key (kbd "C-c C-c") 'custom)
-(global-set-key (kbd "C-c C-c t") 'helm-semantic-or-imenu)
-(global-set-key (kbd "C-x F") 'helm-projectile-find-file)
-
-
 (defvar desktop-buffers-not-to-save)
 (defvar desktop-path)
 (defvar desktop-base-file-name)
@@ -54,15 +44,15 @@
     (setq ns-use-native-fullscreen t))
 
 
-(defun create-global-gitignore ()
-  "Save autosave ignore data in the '~/.config/git/ignore' location."
-  (progn
-    (make-directory "~/.config/git" :parents)
-    (write-region
-     "# ignore .emacs autosaves\n#*#\n"
-     nil
-     "~/.config/git/ignore"
-     :excl)))
+;; (defun create-global-gitignore ()
+;;   "Save autosave ignore data in the '~/.config/git/ignore' location."
+;;   (progn
+;;     (make-directory "~/.config/git" :parents)
+;;     (write-region
+;;      "# ignore .emacs autosaves\n#*#\n"
+;;      nil
+;;      "~/.config/git/ignore"
+;;      :excl)))
 
 ;; (if (not (file-exists-p "~/.config/git/ignore"))
 ;;     (progn (create-global-gitignore)
@@ -146,6 +136,9 @@
   :init
   (global-set-key (kbd "M-o") 'ace-window))
 
+(defvar golden-ratio-extra-commands)
+(add-to-list 'golden-ratio-extra-commands 'aw--callback)
+
 ;; allow for .618 * width scroll + highlight after scroll
 (use-package golden-ratio-scroll-screen
   :init
@@ -189,6 +182,17 @@
 (global-set-key (kbd "C-x C-f") 'helm-find-files)
 (global-set-key (kbd "C-s") 'helm-occur)
 (global-set-key (kbd "M-z") 'helm-persistent-action)
+
+
+(global-set-key (kbd "C-c C-b") 'helm-buffers-list)
+;; (global-set-key (kbd "C-c C-b") 'helm-mini)
+
+(define-prefix-command 'custom)
+(global-set-key (kbd "C-c C-c") 'custom)
+(global-set-key (kbd "C-c C-c t") 'helm-semantic-or-imenu)
+(global-set-key (kbd "C-x F") 'helm-projectile-find-file)
+(global-set-key (kbd "C-x G") 'helm-projectile-grep)
+
 
 (defvar helm-autoresize-mode)
 (helm-mode 1)
@@ -268,6 +272,7 @@
 
 (setq typescript-indent-level 2)
 
+
 (use-package mmm-mode)
 (use-package scss-mode)
 (autoload
@@ -303,16 +308,17 @@
   :init
   (global-company-mode)
   (setq company-idle-delay 0)
-  (setq minimum-prefix-length 3))
+  (setq minimum-prefix-length 1))
 
 (use-package jedi)
 
-(use-package company-jedi
-  :hook ('python-mode-hook . 'jedi:setup)
-  :init
-  (add-to-list 'company-backends 'company-jedi)
-  (setq jedi:complete-on-dot t))
+;; (use-package company-jedi
+;;   :hook ('python-mode-hook . 'jedi:setup)
+;;   :init
+;;   (add-to-list 'company-backends 'company-jedi)
+;;   (setq jedi:complete-on-dot t))
 
+(use-package elpy :init (elpy-enable))
 
 
 ;; (use-package rjsx-mode
@@ -378,7 +384,7 @@
  '(minimap-width-fraction 0.05)
  '(minimap-window-location 'right)
  '(package-selected-packages
-   '(helm-projectile company-jedi jedi company pipenv dockerfile-mode docker gitignore-mode gitconfig-mode gitattributes-mode gitattributes-modes projectile git-modes css-in-js rjsx-mode exec-path-from-shell dap-mode helm-lsp lsp-ui lsp-mode typescript-mode prettier json-mode helm-searcher ivy helm moom golden-ratio magit telephone-line golden-ratio-scroll-screen golden-ratoi-scroll-screen which-key use-package sublimity powerline monokai-pro-theme minimap jetbrains-darcula-theme ample-zen-theme ample-theme ace-window)))
+   '(elpy helm-projectile company-jedi jedi company pipenv dockerfile-mode docker gitignore-mode gitconfig-mode gitattributes-mode gitattributes-modes projectile git-modes css-in-js rjsx-mode exec-path-from-shell dap-mode helm-lsp lsp-ui lsp-mode typescript-mode prettier json-mode helm-searcher ivy helm moom golden-ratio magit telephone-line golden-ratio-scroll-screen golden-ratoi-scroll-screen which-key use-package sublimity powerline monokai-pro-theme minimap jetbrains-darcula-theme ample-zen-theme ample-theme ace-window)))
 
 ; LocalWords:  aspell monokai
 (custom-set-faces
