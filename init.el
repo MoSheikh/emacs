@@ -360,6 +360,7 @@
  '(company-tooltip-common-selection ((t (:background "#fc9867" :foreground "gray13"))))
  '(golden-ratio-scroll-highlight-line-face ((t (:extend t :background "dark gray" :foreground "white" :weight bold))))
  '(highlight ((t (:background "#353236" :foreground "#727072"))))
+ '(lsp-face-highlight-read ((t nil)))
  '(minimap-active-region-background ((t (:extend t :background "#292A2B")))))
 
 
