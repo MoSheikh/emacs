@@ -113,7 +113,7 @@
   "ace-jump-mode"
   "Emacs quick move minor mode"
   t)
-(define-key global-map (kbd "M-SPC") 'ace-jump-mode)
+(define-key global-map (kbd "C-,") 'ace-jump-mode)
 
 (declare-function ace-jump-mode-enable-mark-sync 'ext:ace-jump-mode)
 
@@ -144,12 +144,12 @@
 (use-package golden-ratio
   :init (golden-ratio-mode 1))
 
-(defun pl/helm-alive-p ()
+(defun pl-helm-alive-p ()
   "Prevent golden-ratio from interfering with helm."
   (if (boundp 'helm-alive-p)
       (symbol-value 'helm-alive-p)))
 
-(add-to-list 'golden-ratio-inhibit-functions 'pl/helm-alive-p)
+(add-to-list 'golden-ratio-inhibit-functions 'pl-helm-alive-p)
 
 (defvar telephone-line-lhs
       '((accent . (telephone-line-vc-segment))))
@@ -171,13 +171,14 @@
 
 ;; (moom-toggle-font-module)
 
-(use-package helm :config (require 'helm-config))
+(use-package helm :config (require 'helm-config) :commands helm-autoresize-mode)
 (global-set-key (kbd "M-x") 'helm-M-x)
 (global-set-key (kbd "C-x r b") 'helm-filtered-bookmarks)
 (global-set-key (kbd "C-x C-f") 'helm-find-files)
 (global-set-key (kbd "C-s") 'helm-occur)
 (global-set-key (kbd "M-z") 'helm-persistent-action)
 
+(defvar helm-autoresize-mode)
 (helm-mode 1)
 (helm-autoresize-mode t)
 
