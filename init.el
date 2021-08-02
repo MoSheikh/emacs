@@ -9,6 +9,21 @@
 
 ;;; Code:
 
+(global-set-key (kbd "M-p") 'yank)
+
+(defvar desktop-buffers-not-to-save)
+(defvar desktop-path)
+(defvar desktop-base-file-name)
+;; persist sessions
+(desktop-save-mode 1)
+(setq desktop-buffers-not-to-save
+      (concat "\\("
+	      "\\.log\\|#*#"
+	      "\\)$"))
+
+(setq desktop-path '("~/.emacs.d/desktop"))
+(setq desktop-base-file-name "emacs-desktop")
+
 ;; suppress ace-jump-mode warnings
 (setq byte-compile-warnings '(cl-functions))
 (setq inhibit-startup-message t)
@@ -59,7 +74,11 @@
 ;; window switching via <S-Arrow> - replaced by ace-jump-window
 ;; (windmove-default-keybindings)
 
+(add-to-list 'load-path "~/.emacs.d/plugins/")
 (require 'package)
+(load "~/.emacs.d/plugins/config.el")
+(load "~/.emacs.d/plugins/config.el")
+(require 'css-in-js)
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
 (package-initialize)
 
@@ -87,7 +106,6 @@
 ;; manual installation to work around bug
 ;; enables quick navigation using via searching
 
-(add-to-list 'load-path "/Users/mo/.emacs.d/plugins/")
 (autoload
   'ace-jump-mode
   "ace-jump-mode"
@@ -124,6 +142,13 @@
 (use-package golden-ratio
   :init (golden-ratio-mode 1))
 
+(defun pl/helm-alive-p ()
+  "Prevent golden-ratio from interfering with helm."
+  (if (boundp 'helm-alive-p)
+      (symbol-value 'helm-alive-p)))
+
+(add-to-list 'golden-ratio-inhibit-functions 'pl/helm-alive-p)
+
 (defvar telephone-line-lhs
       '((accent . (telephone-line-vc-segment))))
 
@@ -145,9 +170,12 @@
 ;; (moom-toggle-font-module)
 
 (use-package helm :config (require 'helm-config))
-(use-package helm-searcher)
 (global-set-key (kbd "M-x") 'helm-M-x)
+(global-set-key (kbd "C-x r b") 'helm-filtered-bookmarks)
+(global-set-key (kbd "C-x C-f") 'helm-find-files)
 
+(helm-mode 1)
+(helm-autoresize-mode t)
 
 (use-package lsp-mode
   :init
@@ -157,10 +185,20 @@
 
 (use-package lsp-ui :commands lsp-ui-mode)
 (use-package helm-lsp :commands helm-lsp-workspace-symbol)
-(use-package dap-mode)
 (use-package flycheck :init (global-flycheck-mode))
 
 (setq lsp-ui-sideline-show-code-actions nil)
+(setq lsp-headerline-breadcrumb-enable nil)
+
+(use-package dap-mode)
+(add-hook 'dap-stopped-hook
+	  (lambda (arg) (call-interactively #'dap-hydra)))
+(dap-mode 1)
+(dap-ui-mode 1)
+(dap-tooltip-mode 1)
+(tooltip-mode 1)
+(dap-ui-controls-mode 1)
+(require 'dap-chrome)
 
 (use-package json-mode
   :mode "\\.json$"
@@ -186,6 +224,20 @@
   (typescript-mode . lsp))
 
 (setq typescript-indent-level 2)
+
+(use-package mmm-mode)
+(use-package scss-mode)
+(autoload
+  'css-in-js
+  "css-in-js"
+  "Add syntax highlighting for css snippets of js files"
+  t)
+
+ 
+
+;; (use-package rjsx-mode
+;;   :mode "\\.tsx?$")
+
 ;; (use-package ivy)
 
 ;; (ivy-mode)
@@ -246,7 +298,7 @@
  '(minimap-width-fraction 0.05)
  '(minimap-window-location 'right)
  '(package-selected-packages
-   '(exec-path-from-shell dap-mode helm-lsp lsp-ui lsp-mode typescript-mode prettier json-mode helm-searcher ivy helm moom golden-ratio magit telephone-line golden-ratio-scroll-screen golden-ratoi-scroll-screen which-key use-package sublimity powerline monokai-pro-theme minimap jetbrains-darcula-theme ample-zen-theme ample-theme ace-window)))
+   '(css-in-js rjsx-mode exec-path-from-shell dap-mode helm-lsp lsp-ui lsp-mode typescript-mode prettier json-mode helm-searcher ivy helm moom golden-ratio magit telephone-line golden-ratio-scroll-screen golden-ratoi-scroll-screen which-key use-package sublimity powerline monokai-pro-theme minimap jetbrains-darcula-theme ample-zen-theme ample-theme ace-window)))
 
 ; LocalWords:  aspell monokai
 (custom-set-faces
