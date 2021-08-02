@@ -34,3 +34,9 @@ recentf
 
 # flycheck temporary file
 flycheck_init.el
+
+# dap-chrome
+url
+
+# dap-chrome dependencies
+.extension/

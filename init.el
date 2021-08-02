@@ -10,7 +10,15 @@
 ;;; Code:
 
 (global-set-key (kbd "M-p") 'yank)
-(global-set-key (kbd "C-c C-d") 'kill-buffer-and-window)
+(global-set-key (kbd "C-c q") 'kill-buffer-and-window)
+
+
+(global-set-key (kbd "C-c C-b") 'helm-buffers-list)
+;; (global-set-key (kbd "C-c C-b") 'helm-mini)
+
+(define-prefix-command 'custom)
+(global-set-key (kbd "C-c C-c") 'custom)
+(global-set-key (kbd "C-c C-c f") 'helm-semantic-or-imenu)
 
 (defvar desktop-buffers-not-to-save)
 (defvar desktop-path)
@@ -201,7 +209,7 @@
 (setq lsp-headerline-breadcrumb-enable nil)
 
 ;; dap for debugging
-(use-package dap-mode)
+(use-package dap-mode :commands dap-register-debug-template)
 (require 'dap-chrome)
 (require 'dap-python)
 (add-hook 'dap-stopped-hook
@@ -211,6 +219,24 @@
 (dap-tooltip-mode 1)
 (tooltip-mode 1)
 (dap-ui-controls-mode 1)
+
+
+;; (defvar dap-chrome-url)
+;; (setq dap-chrome-url "http://localhost:3002")
+(dap-register-debug-template "Chrome"
+			     (list :type "chrome"
+				   :cwd nil
+				   :mode "url"
+				   :request "launch"
+				   :webRoot "~/dev/unit21/lumos"
+				   :url "http://localhost:3002"))
+
+
+(use-package web-mode)
+
+(use-package jest
+  :after (js2-mode)
+  :hook (js2-mode . jest-minor-mode))
 
 (use-package json-mode
   :mode "\\.json$"
@@ -355,6 +381,7 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(company-preview-common ((t (:background "#403e41" :foreground "#bdbdb3"))))
  '(company-tooltip ((t (:inherit nil :background "gray14" :foreground "dark gray"))))
  '(company-tooltip-common ((t (:background "gray35" :foreground "gray90" :weight bold))))
  '(company-tooltip-common-selection ((t (:background "#fc9867" :foreground "gray13"))))
