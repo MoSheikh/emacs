@@ -187,8 +187,6 @@
 (projectile-mode +1)
 (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
 
-
-
 (use-package lsp-mode
   :init
   (setq lsp-keymap-prefix "C-c 1")
@@ -267,6 +265,24 @@
    #'pipenv-projectile-after-switch-extended)
    :commands pipenv-projectile-after-switch-extended)
 
+(defvar company-idle-delay)
+(defvar minimum-prefix-length)
+(declare-function global-company-mode ())
+(use-package company
+  :init
+  (global-company-mode)
+  (setq company-idle-delay 0)
+  (setq minimum-prefix-length 3))
+
+(use-package jedi)
+
+(use-package company-jedi
+  :hook ('python-mode-hook . 'jedi:setup)
+  :init
+  (add-to-list 'company-backends 'company-jedi)
+  (setq jedi:complete-on-dot t))
+
+
 
 ;; (use-package rjsx-mode
 ;;   :mode "\\.tsx?$")
@@ -331,7 +347,7 @@
  '(minimap-width-fraction 0.05)
  '(minimap-window-location 'right)
  '(package-selected-packages
-   '(pipenv dockerfile-mode docker gitignore-mode gitconfig-mode gitattributes-mode gitattributes-modes projectile git-modes css-in-js rjsx-mode exec-path-from-shell dap-mode helm-lsp lsp-ui lsp-mode typescript-mode prettier json-mode helm-searcher ivy helm moom golden-ratio magit telephone-line golden-ratio-scroll-screen golden-ratoi-scroll-screen which-key use-package sublimity powerline monokai-pro-theme minimap jetbrains-darcula-theme ample-zen-theme ample-theme ace-window)))
+   '(company-jedi jedi company pipenv dockerfile-mode docker gitignore-mode gitconfig-mode gitattributes-mode gitattributes-modes projectile git-modes css-in-js rjsx-mode exec-path-from-shell dap-mode helm-lsp lsp-ui lsp-mode typescript-mode prettier json-mode helm-searcher ivy helm moom golden-ratio magit telephone-line golden-ratio-scroll-screen golden-ratoi-scroll-screen which-key use-package sublimity powerline monokai-pro-theme minimap jetbrains-darcula-theme ample-zen-theme ample-theme ace-window)))
 
 ; LocalWords:  aspell monokai
 (custom-set-faces
@@ -339,6 +355,9 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(company-tooltip ((t (:inherit nil :background "gray14" :foreground "dark gray"))))
+ '(company-tooltip-common ((t (:background "gray35" :foreground "gray90" :weight bold))))
+ '(company-tooltip-common-selection ((t (:background "#fc9867" :foreground "gray13"))))
  '(golden-ratio-scroll-highlight-line-face ((t (:extend t :background "dark gray" :foreground "white" :weight bold))))
  '(highlight ((t (:background "#353236" :foreground "#727072"))))
  '(minimap-active-region-background ((t (:extend t :background "#292A2B")))))
