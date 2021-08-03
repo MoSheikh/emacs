@@ -43,7 +43,6 @@
     (setq mac-right-command-modifier 'meta)
     (setq ns-use-native-fullscreen t))
 
-
 ;; (defun create-global-gitignore ()
 ;;   "Save autosave ignore data in the '~/.config/git/ignore' location."
 ;;   (progn
@@ -157,19 +156,19 @@
 (add-to-list 'golden-ratio-inhibit-functions 'pl-helm-alive-p)
 
 (defvar telephone-line-lhs
-      '((accent . (telephone-line-vc-segment))))
+  '((accent . (telephone-line-vc-segment))))
 
 ;; cleaner bottom info ribbon
 (use-package telephone-line
   :init (telephone-line-mode 1))
 
-(use-package moom)
-(with-eval-after-load "moom"
-  (define-key moom-mode-map (kbd "<f2>") 'moom-cycle-frame-height)
-  (setq moom-use-font-module nil)
-  (moom-mode 1))
+;; (use-package moom)
+;; (with-eval-after-load "moom"
+;;   (define-key moom-mode-map (kbd "<f2>") 'moom-cycle-frame-height)
+;;   (setq moom-use-font-module nil)
+;;   (moom-mode 1))
 
-(moom-fill-left)
+;; (moom-fill-left)
 
 ;; (with-eval-after-load "moom"
 ;;   (setq moom-use-font-module nil))
@@ -194,8 +193,8 @@
 (global-set-key (kbd "C-s") 'helm-occur)
 (global-set-key (kbd "M-z") 'helm-persistent-action)
 
-(global-set-key (kbd "C-c C-b") 'helm-buffers-list)
-;; (global-set-key (kbd "C-c C-b") 'helm-mini)
+;; (global-set-key (kbd "C-c C-b") 'helm-buffers-list)
+(global-set-key (kbd "C-c C-b") 'helm-mini)
 
 (define-prefix-command 'custom)
 (global-set-key (kbd "C-c C-c") 'custom)
@@ -442,7 +441,7 @@
  '(ansi-term-color-vector
    [unspecified "#2d2a2e" "#ff6188" "#a9dc76" "#ffd866" "#78dce8" "#ab9df2" "#a1efe4" "#fcfcfa"] t)
  '(custom-safe-themes
-   '("1d44ec8ec6ec6e6be32f2f73edf398620bb721afeed50f75df6b12ccff0fbb15" "745d03d647c4b118f671c49214420639cb3af7152e81f132478ed1c649d4597d" "8146edab0de2007a99a2361041015331af706e7907de9d6a330a3493a541e5a6" "0466adb5554ea3055d0353d363832446cd8be7b799c39839f387abb631ea0995" "d6844d1e698d76ef048a53cefe713dbbe3af43a1362de81cdd3aefa3711eae0d" "835868dcd17131ba8b9619d14c67c127aa18b90a82438c8613586331129dda63" "e19ac4ef0f028f503b1ccafa7c337021834ce0d1a2bca03fcebc1ef635776bea" "e8df30cd7fb42e56a4efc585540a2e63b0c6eeb9f4dc053373e05d774332fc13" "a82ab9f1308b4e10684815b08c9cac6b07d5ccb12491f44a942d845b406b0296" "1d5e33500bc9548f800f9e248b57d1b2a9ecde79cb40c0b1398dec51ee820daf" "234dbb732ef054b109a9e5ee5b499632c63cc24f7c2383a849815dacc1727cb6" "b0e446b48d03c5053af28908168262c3e5335dcad3317215d9fdeb8bac5bacf9" "f91395598d4cb3e2ae6a2db8527ceb83fed79dbaf007f435de3e91e5bda485fb" "b02eae4d22362a941751f690032ea30c7c78d8ca8a1212fdae9eecad28a3587f" "fb83a50c80de36f23aea5919e50e1bccd565ca5bb646af95729dc8c5f926cbf3" "36ca8f60565af20ef4f30783aa16a26d96c02df7b4e54e9900a5138fb33808da" "24168c7e083ca0bbc87c68d3139ef39f072488703dcdd82343b8cab71c0f62a7" "5185a285365a768a30ac274bdbc4437e7fd2fbe3107a1b0f2b60e900181905e0" default))
+   '("a0be7a38e2de974d1598cf247f607d5c1841dbcef1ccd97cded8bea95a7c7639" "1d44ec8ec6ec6e6be32f2f73edf398620bb721afeed50f75df6b12ccff0fbb15" "745d03d647c4b118f671c49214420639cb3af7152e81f132478ed1c649d4597d" "8146edab0de2007a99a2361041015331af706e7907de9d6a330a3493a541e5a6" "0466adb5554ea3055d0353d363832446cd8be7b799c39839f387abb631ea0995" "d6844d1e698d76ef048a53cefe713dbbe3af43a1362de81cdd3aefa3711eae0d" "835868dcd17131ba8b9619d14c67c127aa18b90a82438c8613586331129dda63" "e19ac4ef0f028f503b1ccafa7c337021834ce0d1a2bca03fcebc1ef635776bea" "e8df30cd7fb42e56a4efc585540a2e63b0c6eeb9f4dc053373e05d774332fc13" "a82ab9f1308b4e10684815b08c9cac6b07d5ccb12491f44a942d845b406b0296" "1d5e33500bc9548f800f9e248b57d1b2a9ecde79cb40c0b1398dec51ee820daf" "234dbb732ef054b109a9e5ee5b499632c63cc24f7c2383a849815dacc1727cb6" "b0e446b48d03c5053af28908168262c3e5335dcad3317215d9fdeb8bac5bacf9" "f91395598d4cb3e2ae6a2db8527ceb83fed79dbaf007f435de3e91e5bda485fb" "b02eae4d22362a941751f690032ea30c7c78d8ca8a1212fdae9eecad28a3587f" "fb83a50c80de36f23aea5919e50e1bccd565ca5bb646af95729dc8c5f926cbf3" "36ca8f60565af20ef4f30783aa16a26d96c02df7b4e54e9900a5138fb33808da" "24168c7e083ca0bbc87c68d3139ef39f072488703dcdd82343b8cab71c0f62a7" "5185a285365a768a30ac274bdbc4437e7fd2fbe3107a1b0f2b60e900181905e0" default))
  '(minimap-dedicated-window nil)
  '(minimap-display-semantic-overlays t)
  '(minimap-hide-fringes t)
