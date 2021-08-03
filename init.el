@@ -136,9 +136,6 @@
   :init
   (global-set-key (kbd "M-o") 'ace-window))
 
-(defvar golden-ratio-extra-commands)
-(add-to-list 'golden-ratio-extra-commands 'aw--callback)
-
 ;; allow for .618 * width scroll + highlight after scroll
 (use-package golden-ratio-scroll-screen
   :init
@@ -148,6 +145,9 @@
 ;; use 0.618 proportion for new windows
 (use-package golden-ratio
   :init (golden-ratio-mode 1))
+
+(defvar golden-ratio-extra-commands)
+(add-to-list 'golden-ratio-extra-commands 'ace-window)
 
 (defun pl-helm-alive-p ()
   "Prevent golden-ratio from interfering with helm."
@@ -177,12 +177,22 @@
 ;; (moom-toggle-font-module)
 
 (use-package helm :config (require 'helm-config) :commands helm-autoresize-mode)
+
+(use-package projectile)
+(projectile-mode +1)
+(define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
+
+(use-package helm-projectile)
+
+(defvar helm-autoresize-mode)
+(helm-mode 1)
+(helm-autoresize-mode t)
+
 (global-set-key (kbd "M-x") 'helm-M-x)
 (global-set-key (kbd "C-x r b") 'helm-filtered-bookmarks)
 (global-set-key (kbd "C-x C-f") 'helm-find-files)
 (global-set-key (kbd "C-s") 'helm-occur)
 (global-set-key (kbd "M-z") 'helm-persistent-action)
-
 
 (global-set-key (kbd "C-c C-b") 'helm-buffers-list)
 ;; (global-set-key (kbd "C-c C-b") 'helm-mini)
@@ -193,24 +203,53 @@
 (global-set-key (kbd "C-x F") 'helm-projectile-find-file)
 (global-set-key (kbd "C-x G") 'helm-projectile-grep)
 
-
-(defvar helm-autoresize-mode)
-(helm-mode 1)
-(helm-autoresize-mode t)
-
-(use-package projectile)
-(projectile-mode +1)
-(define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
-
-(use-package helm-projectile)
-
 (use-package lsp-mode
   :init
   (setq lsp-keymap-prefix "C-c 1")
-  :hook ((lsp-mode . lsp-enable-which-key-integration))
+  :hook (
+	 (lsp-mode . lsp-enable-which-key-integration)
+	 (python-mode . lsp-deferred))
   :commands lsp)
 
-(use-package lsp-ui :commands lsp-ui-mode)
+(use-package lsp-ui
+  :commands lsp-ui-mode
+  :config
+  (setq lsp-ui-sideline-enable t
+	lsp-ui-doc-delay 2)
+  :bind (:map lsp-ui-mode-map
+	      ("C-c i" . lsp-ui-imenu)))
+
+(use-package python
+  :config
+  (setq python-indent-guess-indent-offset-verbose nil)
+  (setq python-shell-completion-native-enable nil)
+  (cond
+   ((executable-find "ipython")
+   (progn
+     (setq python-shell-buffer-name "IPython")
+     (setq python-shell-interpreter "ipython")
+     (setq python-shell-interpreter-args "-i --simple-prompt")))
+  ((executable-find "python3")
+   (setq python-shell-interpreter "python3"))
+  ((executable-find "python2")
+   (setq python-shell-interpreter "python2"))
+  (t
+   (setq python-shell-interpreter "python"))))
+
+(defvar pipenv-projectile-after-switch-function)
+(defvar pipenv-projectile-after-switch-extended)
+(declare-function pipenv-projectile-after-switch-extended ())
+(autoload 'pipenv-projectile-after-switch-extended "pipenv")
+(use-package pipenv
+  :hook (python-mode . pipenv-mode)
+  :init
+  (setq
+   pipenv-projectile-after-switch-function
+   #'pipenv-projectile-after-switch-extended)
+   :commands pipenv-projectile-after-switch-extended)
+
+(use-package python-pytest)
+
 (use-package helm-lsp :commands helm-lsp-workspace-symbol)
 (use-package flycheck :init (global-flycheck-mode))
 
@@ -288,29 +327,56 @@
 (use-package docker)
 (use-package dockerfile-mode)
 
-
-(defvar pipenv-projectile-after-switch-function)
-(defvar pipenv-projectile-after-switch-extended)
-(declare-function pipenv-projectile-after-switch-extended ())
-(autoload 'pipenv-projectile-after-switch-extended "pipenv")
-(use-package pipenv
-  :hook (python-mode . pipenv-mode)
-  :init
-  (setq
-   pipenv-projectile-after-switch-function
-   #'pipenv-projectile-after-switch-extended)
-   :commands pipenv-projectile-after-switch-extended)
-
 (defvar company-idle-delay)
 (defvar minimum-prefix-length)
+(defvar company-dabbrev-other-buffers)
+(defvar company-dabbrev-code-other-buffers)
 (declare-function global-company-mode ())
 (use-package company
   :init
   (global-company-mode)
   (setq company-idle-delay 0)
-  (setq minimum-prefix-length 1))
+  (setq minimum-prefix-length 0)
+  (setq company-dabbrev-other-buffers t
+	company-dabbrev-code-other-buffers t)
+  :hook ((text-mode . company-mode)
+	 (prog-mode . company-mode)))
 
 (use-package jedi)
+
+(use-package treemacs
+  :init
+  (setq treemacs-width 40))
+
+(use-package all-the-icons)
+(use-package treemacs-magit)
+(use-package treemacs-icons-dired)
+(use-package treemacs-all-the-icons)
+
+(defvar doom-themes-enable-bold)
+(defvar doom-themes-enable-italic)
+(defvar doom-themes-treemacs-theme)
+(declare-function doom-themes-visual-bell-config ())
+(declare-function doom-themes-treemacs-config ())
+(declare-function doom-themes-org-config ())
+(use-package doom-themes
+  :config
+  (setq doom-themes-enable-bold t
+	doom-themes-enable-italic t)
+  (load-theme 'doom-spacegrey t)
+  (doom-themes-visual-bell-config)t
+  (setq doom-themes-treemacs-theme "doom-1337")
+  (doom-themes-treemacs-config)
+  (doom-themes-org-config))
+
+
+(defvar centaur-tabs-style)
+(use-package centaur-tabs
+  :config
+  (centaur-tabs-mode t)
+  (setq centaur-tabs-style "bar")
+  (global-set-key (kbd "C-<") 'centaur-tabs-backward)
+  (global-set-key (kbd "C->") 'centaur-tabs-forward))
 
 ;; (use-package company-jedi
 ;;   :hook ('python-mode-hook . 'jedi:setup)
@@ -376,7 +442,7 @@
  '(ansi-term-color-vector
    [unspecified "#2d2a2e" "#ff6188" "#a9dc76" "#ffd866" "#78dce8" "#ab9df2" "#a1efe4" "#fcfcfa"] t)
  '(custom-safe-themes
-   '("b02eae4d22362a941751f690032ea30c7c78d8ca8a1212fdae9eecad28a3587f" "fb83a50c80de36f23aea5919e50e1bccd565ca5bb646af95729dc8c5f926cbf3" "36ca8f60565af20ef4f30783aa16a26d96c02df7b4e54e9900a5138fb33808da" "24168c7e083ca0bbc87c68d3139ef39f072488703dcdd82343b8cab71c0f62a7" "5185a285365a768a30ac274bdbc4437e7fd2fbe3107a1b0f2b60e900181905e0" default))
+   '("1d44ec8ec6ec6e6be32f2f73edf398620bb721afeed50f75df6b12ccff0fbb15" "745d03d647c4b118f671c49214420639cb3af7152e81f132478ed1c649d4597d" "8146edab0de2007a99a2361041015331af706e7907de9d6a330a3493a541e5a6" "0466adb5554ea3055d0353d363832446cd8be7b799c39839f387abb631ea0995" "d6844d1e698d76ef048a53cefe713dbbe3af43a1362de81cdd3aefa3711eae0d" "835868dcd17131ba8b9619d14c67c127aa18b90a82438c8613586331129dda63" "e19ac4ef0f028f503b1ccafa7c337021834ce0d1a2bca03fcebc1ef635776bea" "e8df30cd7fb42e56a4efc585540a2e63b0c6eeb9f4dc053373e05d774332fc13" "a82ab9f1308b4e10684815b08c9cac6b07d5ccb12491f44a942d845b406b0296" "1d5e33500bc9548f800f9e248b57d1b2a9ecde79cb40c0b1398dec51ee820daf" "234dbb732ef054b109a9e5ee5b499632c63cc24f7c2383a849815dacc1727cb6" "b0e446b48d03c5053af28908168262c3e5335dcad3317215d9fdeb8bac5bacf9" "f91395598d4cb3e2ae6a2db8527ceb83fed79dbaf007f435de3e91e5bda485fb" "b02eae4d22362a941751f690032ea30c7c78d8ca8a1212fdae9eecad28a3587f" "fb83a50c80de36f23aea5919e50e1bccd565ca5bb646af95729dc8c5f926cbf3" "36ca8f60565af20ef4f30783aa16a26d96c02df7b4e54e9900a5138fb33808da" "24168c7e083ca0bbc87c68d3139ef39f072488703dcdd82343b8cab71c0f62a7" "5185a285365a768a30ac274bdbc4437e7fd2fbe3107a1b0f2b60e900181905e0" default))
  '(minimap-dedicated-window nil)
  '(minimap-display-semantic-overlays t)
  '(minimap-hide-fringes t)
@@ -384,7 +450,7 @@
  '(minimap-width-fraction 0.05)
  '(minimap-window-location 'right)
  '(package-selected-packages
-   '(elpy helm-projectile company-jedi jedi company pipenv dockerfile-mode docker gitignore-mode gitconfig-mode gitattributes-mode gitattributes-modes projectile git-modes css-in-js rjsx-mode exec-path-from-shell dap-mode helm-lsp lsp-ui lsp-mode typescript-mode prettier json-mode helm-searcher ivy helm moom golden-ratio magit telephone-line golden-ratio-scroll-screen golden-ratoi-scroll-screen which-key use-package sublimity powerline monokai-pro-theme minimap jetbrains-darcula-theme ample-zen-theme ample-theme ace-window)))
+   '(doom-themes inferior-python-mode python-pytest cl pytest centaur-tabs elpy helm-projectile company-jedi jedi company pipenv dockerfile-mode docker gitignore-mode gitconfig-mode gitattributes-mode gitattributes-modes projectile git-modes css-in-js rjsx-mode exec-path-from-shell dap-mode helm-lsp lsp-ui lsp-mode typescript-mode prettier json-mode helm-searcher ivy helm moom golden-ratio magit telephone-line golden-ratio-scroll-screen golden-ratoi-scroll-screen which-key use-package sublimity powerline monokai-pro-theme minimap jetbrains-darcula-theme ample-zen-theme ample-theme ace-window)))
 
 ; LocalWords:  aspell monokai
 (custom-set-faces
