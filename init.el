@@ -176,13 +176,10 @@
 
 ;; (moom-toggle-font-module)
 
-(use-package helm :config (require 'helm-config) :commands helm-autoresize-mode)
-
-(use-package projectile)
-(projectile-mode +1)
-(define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
-
-(use-package helm-projectile)
+(use-package helm
+  :config
+  (require 'helm-config)
+  :commands helm-autoresize-mode)
 
 (defvar helm-autoresize-mode)
 (helm-mode 1)
@@ -190,7 +187,13 @@
 
 ;;;
 ;;  Install "ag" executable to use this
-;; (use-package helm-ag)
+(use-package helm-ag)
+
+(use-package projectile)
+(projectile-mode +1)
+(define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
+
+(use-package helm-projectile)
 
 (global-set-key (kbd "M-x") 'helm-M-x)
 (global-set-key (kbd "C-x r b") 'helm-filtered-bookmarks)
@@ -212,8 +215,10 @@
 (define-prefix-command 'custom)
 (global-set-key (kbd "C-c C-c") 'custom)
 (global-set-key (kbd "C-c C-c t") 'helm-semantic-or-imenu)
-(global-set-key (kbd "C-x F") 'helm-projectile-find-file)
-;; (global-set-key (kbd "C-x G") 'helm-do-ag)
+(global-set-key (kbd "C-x S-f") 'projectile-find-file-in-directory)
+(global-set-key (kbd "C-x S-g") 'helm-do-ag)
+;; (global-set-key (kbd "C-x C-F") 'helm-do-ag)
+
 
 (use-package lsp-mode
   :init
@@ -371,30 +376,30 @@
 (declare-function doom-themes-visual-bell-config ())
 (declare-function doom-themes-treemacs-config ())
 (declare-function doom-themes-org-config ())
-;; (use-package doom-themes
-;;   :config
-;;   (setq doom-themes-enable-bold t
-;; 	doom-themes-enable-italic t
-;; 	doom-themes-treemacs-theme "doom-1337")
-;;   :init
-;;   (load-theme 'doom-spacegrey t)
-;;   (doom-themes-visual-bell-config)t
-;;   (doom-themes-treemacs-config)
-;;   (doom-themes-org-config))
+(use-package doom-themes
+  :config
+  (setq doom-themes-enable-bold t
+	doom-themes-enable-italic t
+	doom-themes-treemacs-theme "doom-1337")
+  :init
+  (load-theme 'doom-tomorrow-night t)
+  (doom-themes-visual-bell-config)t
+  (doom-themes-treemacs-config)
+  (doom-themes-org-config))
 
 
 ;; spacegrey and tomorrow-night for load-themes
 
-(defvar centaur-tabs-style)
-(use-package centaur-tabs
-  :config
-  (setq centaur-tabs-style "bar")
-  (global-set-key (kbd "C-<") 'centaur-tabs-backward)
-  (global-set-key (kbd "C->") 'centaur-tabs-forward)
-  :init
-  (centaur-tabs-mode t))
+;; (defvar centaur-tabs-style)
+;; (use-package centaur-tabs
+;;   :config
+;;   (setq centaur-tabs-style "bar")
+;;   (global-set-key (kbd "C-<") 'centaur-tabs-backward)
+;;   (global-set-key (kbd "C->") 'centaur-tabs-forward)
+;;   :init
+;;   (centaur-tabs-mode t))
 
-(setq centaur-tabs-set-bar 'under)
+;; (setq centaur-tabs-set-bar 'under)
 
 ;; (use-package company-jedi
 ;;   :hook ('python-mode-hook . 'jedi:setup)
@@ -424,15 +429,15 @@
 ;;   :config
 ;;   (define-key global-map (kbd "M-SPC") 'ace-jump-mode));
 
-;; (autoload
-;;   'ace-jump-mode-pop-mark
-;;   "ace-jump-mode"
-;;   "Ace jump back:-)"
-;;
-;;   t)
-;; (eval-after-load "ace-jump-mode"
-;;   '(ace-jump-mode-enable-mark-sync))
-;; (define-key global-map (kbd "C-x SPC") 'ace-jump-mode-pop-mark)
+(autoload
+  'ace-jump-mode-pop-mark
+  "ace-jump-mode"
+  "Ace jump back:-)"
+
+  t)
+(eval-after-load "ace-jump-mode"
+  '(ace-jump-mode-enable-mark-sync))
+(define-key global-map (kbd "C-x SPC") 'ace-jump-mode-pop-mark)
 
 
 ;; themes
@@ -460,9 +465,8 @@
  '(ansi-term-color-vector
    [unspecified "#2d2a2e" "#ff6188" "#a9dc76" "#ffd866" "#78dce8" "#ab9df2" "#a1efe4" "#fcfcfa"] t)
  '(case-fold-search nil)
- '(centaur-tabs-mode t nil (centaur-tabs))
  '(custom-safe-themes
-   '("7a7b1d475b42c1a0b61f3b1d1225dd249ffa1abb1b7f726aec59ac7ca3bf4dae" "4b0e826f58b39e2ce2829fab8ca999bcdc076dec35187bf4e9a4b938cb5771dc" "a0be7a38e2de974d1598cf247f607d5c1841dbcef1ccd97cded8bea95a7c7639" "1d44ec8ec6ec6e6be32f2f73edf398620bb721afeed50f75df6b12ccff0fbb15" "745d03d647c4b118f671c49214420639cb3af7152e81f132478ed1c649d4597d" "8146edab0de2007a99a2361041015331af706e7907de9d6a330a3493a541e5a6" "0466adb5554ea3055d0353d363832446cd8be7b799c39839f387abb631ea0995" "d6844d1e698d76ef048a53cefe713dbbe3af43a1362de81cdd3aefa3711eae0d" "835868dcd17131ba8b9619d14c67c127aa18b90a82438c8613586331129dda63" "e19ac4ef0f028f503b1ccafa7c337021834ce0d1a2bca03fcebc1ef635776bea" "e8df30cd7fb42e56a4efc585540a2e63b0c6eeb9f4dc053373e05d774332fc13" "a82ab9f1308b4e10684815b08c9cac6b07d5ccb12491f44a942d845b406b0296" "1d5e33500bc9548f800f9e248b57d1b2a9ecde79cb40c0b1398dec51ee820daf" "234dbb732ef054b109a9e5ee5b499632c63cc24f7c2383a849815dacc1727cb6" "b0e446b48d03c5053af28908168262c3e5335dcad3317215d9fdeb8bac5bacf9" "f91395598d4cb3e2ae6a2db8527ceb83fed79dbaf007f435de3e91e5bda485fb" "b02eae4d22362a941751f690032ea30c7c78d8ca8a1212fdae9eecad28a3587f" "fb83a50c80de36f23aea5919e50e1bccd565ca5bb646af95729dc8c5f926cbf3" "36ca8f60565af20ef4f30783aa16a26d96c02df7b4e54e9900a5138fb33808da" "24168c7e083ca0bbc87c68d3139ef39f072488703dcdd82343b8cab71c0f62a7" "5185a285365a768a30ac274bdbc4437e7fd2fbe3107a1b0f2b60e900181905e0" default))
+   '("a6e620c9decbea9cac46ea47541b31b3e20804a4646ca6da4cce105ee03e8d0e" "da186cce19b5aed3f6a2316845583dbee76aea9255ea0da857d1c058ff003546" "1704976a1797342a1b4ea7a75bdbb3be1569f4619134341bd5a4c1cfb16abad4" "7a7b1d475b42c1a0b61f3b1d1225dd249ffa1abb1b7f726aec59ac7ca3bf4dae" "4b0e826f58b39e2ce2829fab8ca999bcdc076dec35187bf4e9a4b938cb5771dc" "a0be7a38e2de974d1598cf247f607d5c1841dbcef1ccd97cded8bea95a7c7639" "1d44ec8ec6ec6e6be32f2f73edf398620bb721afeed50f75df6b12ccff0fbb15" "745d03d647c4b118f671c49214420639cb3af7152e81f132478ed1c649d4597d" "8146edab0de2007a99a2361041015331af706e7907de9d6a330a3493a541e5a6" "0466adb5554ea3055d0353d363832446cd8be7b799c39839f387abb631ea0995" "d6844d1e698d76ef048a53cefe713dbbe3af43a1362de81cdd3aefa3711eae0d" "835868dcd17131ba8b9619d14c67c127aa18b90a82438c8613586331129dda63" "e19ac4ef0f028f503b1ccafa7c337021834ce0d1a2bca03fcebc1ef635776bea" "e8df30cd7fb42e56a4efc585540a2e63b0c6eeb9f4dc053373e05d774332fc13" "a82ab9f1308b4e10684815b08c9cac6b07d5ccb12491f44a942d845b406b0296" "1d5e33500bc9548f800f9e248b57d1b2a9ecde79cb40c0b1398dec51ee820daf" "234dbb732ef054b109a9e5ee5b499632c63cc24f7c2383a849815dacc1727cb6" "b0e446b48d03c5053af28908168262c3e5335dcad3317215d9fdeb8bac5bacf9" "f91395598d4cb3e2ae6a2db8527ceb83fed79dbaf007f435de3e91e5bda485fb" "b02eae4d22362a941751f690032ea30c7c78d8ca8a1212fdae9eecad28a3587f" "fb83a50c80de36f23aea5919e50e1bccd565ca5bb646af95729dc8c5f926cbf3" "36ca8f60565af20ef4f30783aa16a26d96c02df7b4e54e9900a5138fb33808da" "24168c7e083ca0bbc87c68d3139ef39f072488703dcdd82343b8cab71c0f62a7" "5185a285365a768a30ac274bdbc4437e7fd2fbe3107a1b0f2b60e900181905e0" default))
  '(helm-completion-style 'helm)
  '(minimap-dedicated-window nil)
  '(minimap-display-semantic-overlays t)
@@ -471,7 +475,7 @@
  '(minimap-width-fraction 0.05)
  '(minimap-window-location 'right)
  '(package-selected-packages
-   '(helm-fd helm-ag doom-themes inferior-python-mode python-pytest cl pytest centaur-tabs elpy helm-projectile company-jedi jedi company pipenv dockerfile-mode docker gitignore-mode gitconfig-mode gitattributes-mode gitattributes-modes projectile git-modes css-in-js rjsx-mode exec-path-from-shell dap-mode helm-lsp lsp-ui lsp-mode typescript-mode prettier json-mode helm-searcher ivy helm moom golden-ratio magit telephone-line golden-ratio-scroll-screen golden-ratoi-scroll-screen which-key use-package sublimity powerline monokai-pro-theme minimap jetbrains-darcula-theme ample-zen-theme ample-theme ace-window)))
+   '(helm-bookmark helm-fd helm-ag doom-themes inferior-python-mode python-pytest cl pytest centaur-tabs elpy helm-projectile company-jedi jedi company pipenv dockerfile-mode docker gitignore-mode gitconfig-mode gitattributes-mode gitattributes-modes projectile git-modes css-in-js rjsx-mode exec-path-from-shell dap-mode helm-lsp lsp-ui lsp-mode typescript-mode prettier json-mode helm-searcher ivy helm moom golden-ratio magit telephone-line golden-ratio-scroll-screen golden-ratoi-scroll-screen which-key use-package sublimity powerline monokai-pro-theme minimap jetbrains-darcula-theme ample-zen-theme ample-theme ace-window)))
 
 ; LocalWords:  aspell monokai
 (custom-set-faces
@@ -486,6 +490,8 @@
  '(company-tooltip-common ((t (:background "gray35" :foreground "gray90" :weight bold))))
  '(company-tooltip-common-selection ((t (:background "#fc9867" :foreground "gray13"))))
  '(golden-ratio-scroll-highlight-line-face ((t (:extend t :background "dark gray" :foreground "white" :weight bold))))
+ '(helm-candidate-number ((t (:background "#454545" :foreground "#6aaf50" :extend t))))
+ '(helm-ff-file-extension ((t (:extend nil :foreground "light salmon"))))
  '(highlight ((t (:background "#353236" :foreground "#727072"))))
  '(lsp-face-highlight-read ((t nil)))
  '(minimap-active-region-background ((t (:extend t :background "#292A2B")))))
