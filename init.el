@@ -188,15 +188,20 @@
 (helm-mode 1)
 (helm-autoresize-mode t)
 
-(use-package helm-ag)
+;;;
+;;  Install "ag" executable to use this
+;; (use-package helm-ag)
 
 (global-set-key (kbd "M-x") 'helm-M-x)
 (global-set-key (kbd "C-x r b") 'helm-filtered-bookmarks)
 (global-set-key (kbd "C-x C-f") 'helm-find-files)
-(global-set-key (kbd "C-x M-f") (lambda ()
-				  (interactive)
-				  (let ((current-prefix-arg '(4)))
-				    (call-interactively #'helm-find))))
+(global-set-key (kbd "C-x M-f") 'projectile-find-file-in-directory)
+;; (global-set-key (kbd "C-x M-f") (lambda ()
+;; 				  (interactive)
+;; 				  (let ((current-prefix-arg '(4)))
+;; 				    (call-interactively #'helm-find))))
+
+
 
 (global-set-key (kbd "C-s") 'helm-occur)
 (global-set-key (kbd "M-z") 'helm-persistent-action)
@@ -208,7 +213,7 @@
 (global-set-key (kbd "C-c C-c") 'custom)
 (global-set-key (kbd "C-c C-c t") 'helm-semantic-or-imenu)
 (global-set-key (kbd "C-x F") 'helm-projectile-find-file)
-(global-set-key (kbd "C-x G") 'helm-do-grep-ag)
+;; (global-set-key (kbd "C-x G") 'helm-do-ag)
 
 (use-package lsp-mode
   :init
@@ -321,11 +326,11 @@
 
 (use-package mmm-mode)
 (use-package scss-mode)
-(autoload
-  'css-in-js
-  "css-in-js"
-  "Add syntax highlighting for css snippets of js files"
-  t)
+;; (autoload
+;;   'css-in-js
+;;   "css-in-js"
+;;   "Add syntax highlighting for css snippets of js files"
+;;   t)
 
 (use-package gitattributes-mode)
 (use-package gitconfig-mode)
@@ -366,24 +371,30 @@
 (declare-function doom-themes-visual-bell-config ())
 (declare-function doom-themes-treemacs-config ())
 (declare-function doom-themes-org-config ())
-(use-package doom-themes
-  :config
-  (setq doom-themes-enable-bold t
-	doom-themes-enable-italic t)
-  (load-theme 'doom-spacegrey t)
-  (doom-themes-visual-bell-config)t
-  (setq doom-themes-treemacs-theme "doom-1337")
-  (doom-themes-treemacs-config)
-  (doom-themes-org-config))
+;; (use-package doom-themes
+;;   :config
+;;   (setq doom-themes-enable-bold t
+;; 	doom-themes-enable-italic t
+;; 	doom-themes-treemacs-theme "doom-1337")
+;;   :init
+;;   (load-theme 'doom-spacegrey t)
+;;   (doom-themes-visual-bell-config)t
+;;   (doom-themes-treemacs-config)
+;;   (doom-themes-org-config))
 
+
+;; spacegrey and tomorrow-night for load-themes
 
 (defvar centaur-tabs-style)
 (use-package centaur-tabs
   :config
-  (centaur-tabs-mode t)
   (setq centaur-tabs-style "bar")
   (global-set-key (kbd "C-<") 'centaur-tabs-backward)
-  (global-set-key (kbd "C->") 'centaur-tabs-forward))
+  (global-set-key (kbd "C->") 'centaur-tabs-forward)
+  :init
+  (centaur-tabs-mode t))
+
+(setq centaur-tabs-set-bar 'under)
 
 ;; (use-package company-jedi
 ;;   :hook ('python-mode-hook . 'jedi:setup)
@@ -425,19 +436,19 @@
 
 
 ;; themes
-(use-package monokai-pro-theme
-  :init
-  (load-theme 'monokai-pro t))
+;; (use-package monokai-pro-theme
+;;   :init
+;;   (load-theme 'monokai-pro t))
 
-(use-package jetbrains-darcula-theme
-  :init
-  (load-theme 'jetbrains-darcula t))
+;; (use-package jetbrains-darcula-theme
+;;   :init
+;;   (load-theme 'jetbrains-darcula t))
 
-(use-package ample-theme
-  :init (progn (load-theme 'ample t t)
-	       (enable-theme 'ample)))
+;; (use-package ample-theme
+;;   :init (progn (load-theme 'ample t t)
+;; 	       (enable-theme 'ample)))
 
-(load-theme 'monokai-pro t)
+;; (load-theme 'monokai-pro t)
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -448,8 +459,11 @@
    ["#454545" "#cd5542" "#6aaf50" "#baba36" "#5180b3" "#ab75c3" "#68a5e9" "#bdbdb3"])
  '(ansi-term-color-vector
    [unspecified "#2d2a2e" "#ff6188" "#a9dc76" "#ffd866" "#78dce8" "#ab9df2" "#a1efe4" "#fcfcfa"] t)
+ '(case-fold-search nil)
+ '(centaur-tabs-mode t nil (centaur-tabs))
  '(custom-safe-themes
-   '("1d44ec8ec6ec6e6be32f2f73edf398620bb721afeed50f75df6b12ccff0fbb15" "745d03d647c4b118f671c49214420639cb3af7152e81f132478ed1c649d4597d" "8146edab0de2007a99a2361041015331af706e7907de9d6a330a3493a541e5a6" "0466adb5554ea3055d0353d363832446cd8be7b799c39839f387abb631ea0995" "d6844d1e698d76ef048a53cefe713dbbe3af43a1362de81cdd3aefa3711eae0d" "835868dcd17131ba8b9619d14c67c127aa18b90a82438c8613586331129dda63" "e19ac4ef0f028f503b1ccafa7c337021834ce0d1a2bca03fcebc1ef635776bea" "e8df30cd7fb42e56a4efc585540a2e63b0c6eeb9f4dc053373e05d774332fc13" "a82ab9f1308b4e10684815b08c9cac6b07d5ccb12491f44a942d845b406b0296" "1d5e33500bc9548f800f9e248b57d1b2a9ecde79cb40c0b1398dec51ee820daf" "234dbb732ef054b109a9e5ee5b499632c63cc24f7c2383a849815dacc1727cb6" "b0e446b48d03c5053af28908168262c3e5335dcad3317215d9fdeb8bac5bacf9" "f91395598d4cb3e2ae6a2db8527ceb83fed79dbaf007f435de3e91e5bda485fb" "b02eae4d22362a941751f690032ea30c7c78d8ca8a1212fdae9eecad28a3587f" "fb83a50c80de36f23aea5919e50e1bccd565ca5bb646af95729dc8c5f926cbf3" "36ca8f60565af20ef4f30783aa16a26d96c02df7b4e54e9900a5138fb33808da" "24168c7e083ca0bbc87c68d3139ef39f072488703dcdd82343b8cab71c0f62a7" "5185a285365a768a30ac274bdbc4437e7fd2fbe3107a1b0f2b60e900181905e0" default))
+   '("7a7b1d475b42c1a0b61f3b1d1225dd249ffa1abb1b7f726aec59ac7ca3bf4dae" "4b0e826f58b39e2ce2829fab8ca999bcdc076dec35187bf4e9a4b938cb5771dc" "a0be7a38e2de974d1598cf247f607d5c1841dbcef1ccd97cded8bea95a7c7639" "1d44ec8ec6ec6e6be32f2f73edf398620bb721afeed50f75df6b12ccff0fbb15" "745d03d647c4b118f671c49214420639cb3af7152e81f132478ed1c649d4597d" "8146edab0de2007a99a2361041015331af706e7907de9d6a330a3493a541e5a6" "0466adb5554ea3055d0353d363832446cd8be7b799c39839f387abb631ea0995" "d6844d1e698d76ef048a53cefe713dbbe3af43a1362de81cdd3aefa3711eae0d" "835868dcd17131ba8b9619d14c67c127aa18b90a82438c8613586331129dda63" "e19ac4ef0f028f503b1ccafa7c337021834ce0d1a2bca03fcebc1ef635776bea" "e8df30cd7fb42e56a4efc585540a2e63b0c6eeb9f4dc053373e05d774332fc13" "a82ab9f1308b4e10684815b08c9cac6b07d5ccb12491f44a942d845b406b0296" "1d5e33500bc9548f800f9e248b57d1b2a9ecde79cb40c0b1398dec51ee820daf" "234dbb732ef054b109a9e5ee5b499632c63cc24f7c2383a849815dacc1727cb6" "b0e446b48d03c5053af28908168262c3e5335dcad3317215d9fdeb8bac5bacf9" "f91395598d4cb3e2ae6a2db8527ceb83fed79dbaf007f435de3e91e5bda485fb" "b02eae4d22362a941751f690032ea30c7c78d8ca8a1212fdae9eecad28a3587f" "fb83a50c80de36f23aea5919e50e1bccd565ca5bb646af95729dc8c5f926cbf3" "36ca8f60565af20ef4f30783aa16a26d96c02df7b4e54e9900a5138fb33808da" "24168c7e083ca0bbc87c68d3139ef39f072488703dcdd82343b8cab71c0f62a7" "5185a285365a768a30ac274bdbc4437e7fd2fbe3107a1b0f2b60e900181905e0" default))
+ '(helm-completion-style 'helm)
  '(minimap-dedicated-window nil)
  '(minimap-display-semantic-overlays t)
  '(minimap-hide-fringes t)
@@ -457,7 +471,7 @@
  '(minimap-width-fraction 0.05)
  '(minimap-window-location 'right)
  '(package-selected-packages
-   '(helm-ag doom-themes inferior-python-mode python-pytest cl pytest centaur-tabs elpy helm-projectile company-jedi jedi company pipenv dockerfile-mode docker gitignore-mode gitconfig-mode gitattributes-mode gitattributes-modes projectile git-modes css-in-js rjsx-mode exec-path-from-shell dap-mode helm-lsp lsp-ui lsp-mode typescript-mode prettier json-mode helm-searcher ivy helm moom golden-ratio magit telephone-line golden-ratio-scroll-screen golden-ratoi-scroll-screen which-key use-package sublimity powerline monokai-pro-theme minimap jetbrains-darcula-theme ample-zen-theme ample-theme ace-window)))
+   '(helm-fd helm-ag doom-themes inferior-python-mode python-pytest cl pytest centaur-tabs elpy helm-projectile company-jedi jedi company pipenv dockerfile-mode docker gitignore-mode gitconfig-mode gitattributes-mode gitattributes-modes projectile git-modes css-in-js rjsx-mode exec-path-from-shell dap-mode helm-lsp lsp-ui lsp-mode typescript-mode prettier json-mode helm-searcher ivy helm moom golden-ratio magit telephone-line golden-ratio-scroll-screen golden-ratoi-scroll-screen which-key use-package sublimity powerline monokai-pro-theme minimap jetbrains-darcula-theme ample-zen-theme ample-theme ace-window)))
 
 ; LocalWords:  aspell monokai
 (custom-set-faces
@@ -466,6 +480,7 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(aw-leading-char-face ((t (:foreground "#fc9867"))))
+ '(centaur-tabs-active-bar-face ((t (:background "#17171q" :box nil))))
  '(company-preview-common ((t (:background "#403e41" :foreground "#bdbdb3"))))
  '(company-tooltip ((t (:inherit nil :background "gray14" :foreground "dark gray"))))
  '(company-tooltip-common ((t (:background "gray35" :foreground "gray90" :weight bold))))
