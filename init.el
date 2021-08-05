@@ -64,7 +64,7 @@
 ;; (global-set-key (kbd "M-v") 'View-scroll-half-page-down)
 
 (global-display-line-numbers-mode)
-(flyspell-prog-mode)
+;; (flyspell-prog-mode)
 (column-number-mode 1)
 (scroll-bar-mode -1)
 (tool-bar-mode -1)
@@ -157,8 +157,13 @@
 
 (add-to-list 'golden-ratio-inhibit-functions 'pl-helm-alive-p)
 
-(defvar telephone-line-lhs
-  '((accent . (telephone-line-vc-segment))))
+(setq telephone-line-lhs
+  '((accent . (telephone-line-vc-segment
+	       telephone-line-buffer-name-segment))
+    ;; (nil . (telephone-line-file-name-absolute-path-segment)
+    ))
+(setq telephone-line-rhs
+      '((accent . (telephone-line-major-mode-segment))))
 
 ;; cleaner bottom info ribbon
 (use-package telephone-line
@@ -216,8 +221,8 @@
 (define-prefix-command 'custom)
 (global-set-key (kbd "C-c C-c") 'custom)
 (global-set-key (kbd "C-c C-c t") 'helm-semantic-or-imenu)
-(global-set-key (kbd "C-x S-f") 'projectile-find-file-in-directory)
-(global-set-key (kbd "C-x S-g") 'helm-do-ag)
+(global-set-key (kbd "C-x C-S-f") 'projectile-find-file-in-directory)
+(global-set-key (kbd "C-x M-f") 'helm-do-ag)
 ;; (global-set-key (kbd "C-x C-F") 'helm-do-ag)
 
 
@@ -267,9 +272,12 @@
    :commands pipenv-projectile-after-switch-extended)
 
 (use-package python-pytest)
-
+(declare-function flycheck-set-indication-mode (m))
 (use-package helm-lsp :commands helm-lsp-workspace-symbol)
-(use-package flycheck :init (global-flycheck-mode))
+(use-package flycheck
+  :init
+  (global-flycheck-mode)
+  (flycheck-set-indication-mode 'left-margin))
 
 (setq lsp-ui-sideline-show-code-actions nil)
 (setq lsp-headerline-breadcrumb-enable nil)
@@ -392,6 +400,17 @@
   :hook
   (org-mode . org-bullets-mode))
 
+;; (use-package diff-hi
+;;   :hook
+;;   ('magit-pre-refresh-hook . 'diff-hi-magit-pre-refresh-hook)
+;;   ('magit-post-refresh-hook . 'diff-hi-magit-post-refresh-hook))
+
+(use-package git-gutter
+  :init
+  (custom-set-variables
+   '(git-gutter:update-interval 1))
+  (global-git-gutter-mode +1))
+
 (use-package yasnippet)
 (use-package yasnippet-snippets)
 
@@ -490,14 +509,14 @@
  '(minimap-width-fraction 0.05)
  '(minimap-window-location 'right)
  '(package-selected-packages
-   '(yasnippet-snippets org-bullets org-bullet helm-bookmark helm-fd helm-ag doom-themes inferior-python-mode python-pytest cl pytest centaur-tabs elpy helm-projectile company-jedi jedi company pipenv dockerfile-mode docker gitignore-mode gitconfig-mode gitattributes-mode gitattributes-modes projectile git-modes css-in-js rjsx-mode exec-path-from-shell dap-mode helm-lsp lsp-ui lsp-mode typescript-mode prettier json-mode helm-searcher ivy helm moom golden-ratio magit telephone-line golden-ratio-scroll-screen golden-ratoi-scroll-screen which-key use-package sublimity powerline monokai-pro-theme minimap jetbrains-darcula-theme ample-zen-theme ample-theme ace-window)))
+   '(diff-hi git-gutter yasnippet-snippets org-bullets org-bullet helm-bookmark helm-fd helm-ag doom-themes inferior-python-mode python-pytest cl pytest centaur-tabs elpy helm-projectile company-jedi jedi company pipenv dockerfile-mode docker gitignore-mode gitconfig-mode gitattributes-mode gitattributes-modes projectile git-modes css-in-js rjsx-mode exec-path-from-shell dap-mode helm-lsp lsp-ui lsp-mode typescript-mode prettier json-mode helm-searcher ivy helm moom golden-ratio magit telephone-line golden-ratio-scroll-screen golden-ratoi-scroll-screen which-key use-package sublimity powerline monokai-pro-theme minimap jetbrains-darcula-theme ample-zen-theme ample-theme ace-window)))
 
 ; LocalWords:  aspell monokai
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
-v ;; If there is more than one, they won't work right.
+ ;; If there is more than one, they won't work right.
  '(ace-jump-face-foreground ((t (:foreground "#fc9867" :underline nil))))
  '(aw-leading-char-face ((t (:foreground "#fc9867"))))
  '(centaur-tabs-active-bar-face ((t (:background "#17171q" :box nil))))
