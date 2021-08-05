@@ -339,7 +339,11 @@
 
 
 (use-package mmm-mode)
-(use-package scss-mode)
+
+(defvar css-indent-offset)
+(use-package scss-mode
+  :init
+  (setq css-indent-offset 2))
 ;; (autoload
 ;;   'css-in-js
 ;;   "css-in-js"
