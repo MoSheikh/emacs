@@ -44,6 +44,7 @@
     (setq ns-use-native-fullscreen t))
 
 
+(require 'org)
 ;; (defun create-global-gitignore ()
 ;;   "Save autosave ignore data in the '~/.config/git/ignore' location."
 ;;   (progn
@@ -387,6 +388,20 @@
   (doom-themes-treemacs-config)
   (doom-themes-org-config))
 
+(use-package org-bullets
+  :hook
+  (org-mode . org-bullets-mode))
+
+(use-package yasnippet)
+(use-package yasnippet-snippets)
+
+(use-package avy
+  :config
+  (global-set-key (kbd "C-:") 'avy-goto-char))
+
+(use-package markdown-mode
+	     :mode ("README\\.md\\'" . gfm-mode)
+	     :init (setq markdown-command "multimarkdown"))
 
 ;; spacegrey and tomorrow-night for load-themes
 
@@ -475,14 +490,15 @@
  '(minimap-width-fraction 0.05)
  '(minimap-window-location 'right)
  '(package-selected-packages
-   '(helm-bookmark helm-fd helm-ag doom-themes inferior-python-mode python-pytest cl pytest centaur-tabs elpy helm-projectile company-jedi jedi company pipenv dockerfile-mode docker gitignore-mode gitconfig-mode gitattributes-mode gitattributes-modes projectile git-modes css-in-js rjsx-mode exec-path-from-shell dap-mode helm-lsp lsp-ui lsp-mode typescript-mode prettier json-mode helm-searcher ivy helm moom golden-ratio magit telephone-line golden-ratio-scroll-screen golden-ratoi-scroll-screen which-key use-package sublimity powerline monokai-pro-theme minimap jetbrains-darcula-theme ample-zen-theme ample-theme ace-window)))
+   '(yasnippet-snippets org-bullets org-bullet helm-bookmark helm-fd helm-ag doom-themes inferior-python-mode python-pytest cl pytest centaur-tabs elpy helm-projectile company-jedi jedi company pipenv dockerfile-mode docker gitignore-mode gitconfig-mode gitattributes-mode gitattributes-modes projectile git-modes css-in-js rjsx-mode exec-path-from-shell dap-mode helm-lsp lsp-ui lsp-mode typescript-mode prettier json-mode helm-searcher ivy helm moom golden-ratio magit telephone-line golden-ratio-scroll-screen golden-ratoi-scroll-screen which-key use-package sublimity powerline monokai-pro-theme minimap jetbrains-darcula-theme ample-zen-theme ample-theme ace-window)))
 
 ; LocalWords:  aspell monokai
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
+v ;; If there is more than one, they won't work right.
+ '(ace-jump-face-foreground ((t (:foreground "#fc9867" :underline nil))))
  '(aw-leading-char-face ((t (:foreground "#fc9867"))))
  '(centaur-tabs-active-bar-face ((t (:background "#17171q" :box nil))))
  '(company-preview-common ((t (:background "#403e41" :foreground "#bdbdb3"))))

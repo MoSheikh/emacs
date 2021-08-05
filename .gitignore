@@ -40,3 +40,9 @@ url
 
 # dap-chrome dependencies
 .extension/
+
+# ignore bookmarks
+bookmarks
+
+# ignore ,treemacs
+.treemacs

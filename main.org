@@ -1,0 +1,27 @@
+#+STARTUP: showall
+
+* Mo's Org Mode
+
+** Emacs
+   
+*** Packages
+    
+   1. helm
+   2. projectile
+   3. helm-projectile
+   4. helm-projectile-ag 
+
+      
+*** Examples
+
+**** Code Block
+    
+    #+NAME: example
+    #+BEGIN_SRC python
+      print(1 + 1)
+    #+END_SRC
+
+
+
+
+
