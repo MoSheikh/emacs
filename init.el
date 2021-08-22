@@ -1,4 +1,12 @@
-;;; init.el
+;;; init.el --- Mo's emacs init.el
+
+;;; Commentary:
+;;
+;;  Second config file
+;;
+;;  TODO:
+;;    - Python support
+;;
 
 ;;; Code:
 
@@ -11,22 +19,6 @@
 (package-initialize)
 
 (declare-function package-installed-p ())
-
-;; use-package.el bootstrap
-(when (not (package-installed-p 'use-package))
-  progn(
-	(package-refresh-contents)
-	(package-install 'use-package)))
-
-(setq-default use-package-always-ensure t
-	      use-package-always-defer t
-	      use-package-verbose nil
-	      use-package-expand-minimally t
-	      use-package-enable-imenu-support t)
-
-(eval-when-compile
-  (add-to-list 'load-path "~/.emacs.d/elpa")
-  (require 'use-package))
 
 ;; straight.el bootstrap
 (declare-function straight-use-package ())
@@ -43,7 +35,14 @@
       (eval-print-last-sexp)))
   (load bootstrap-file nil 'nomessage))
 
+;; use-package.el
 (straight-use-package 'use-package)
+(setq-default use-package-always-ensure t
+	      use-package-always-defer t
+	      use-package-verbose nil
+	      use-package-expand-minimally t
+	      use-package-enable-imenu-support t)
+
 
 (use-package helm
   :straight t
@@ -76,6 +75,10 @@
   (helm-autoresize-mode 1))
 
 ;; company.el
+(defvar company-idle-delay)
+(defvar minimum-prefix-length)
+(defvar company-dabbrev-other-buffers)
+(defvar company-dabbrev-code-other-buffers)
 (use-package company
   :commands
   (global-company-mode
@@ -272,29 +275,6 @@
   (setq typescript-indent-level 2)
   :hook
   (typescript-mode . lsp-deferred))
-
-;; styled-components
-(use-package web-mode)
-
-(use-package polymode
-  :init
-  (define-hostmode poly-typescript-hostmode
-    :mode 'typescript-mode)
-  (define-innermode poly-css-innermode
-    :mode 'css-mode
-    :head-matcher "\\(styled\\|css\\)[.{}()<>;:\n\s\t[:alnum:]]?+`"
-    :tail-matcher "`;"
-    :head-mode 'host
-    :tail-mode 'host)
-  (define-innermode poly-web-innermode
-    :mode 'web-mode
-    :head-matcher "\\(styled\\|css\\)[.{}()<>;:\n\s\t[:alnum:]]?+`"
-    :tail-matcher "`;"
-    :head-mode 'host
-    :tail-mode 'host)
-  (define-polymode poly-typescript-mode
-    :innermodes '(poly-css-innermode
-		  poly-web-innermode)))
 
 ;; prettier.el
 (use-package prettier
