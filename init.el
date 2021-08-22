@@ -1,12 +1,16 @@
 ;;; init.el
 
+;;; Code:
+
 ;; disable byte-compile warnings for older packages
-(setq byte-compile-warnings '(cl-functions)) 
+(setq byte-compile-warnings '(cl-functions))
 
 ;; initialize MELPA
 (require 'package)
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
 (package-initialize)
+
+(declare-function package-installed-p ())
 
 ;; use-package.el bootstrap
 (when (not (package-installed-p 'use-package))
@@ -25,6 +29,7 @@
   (require 'use-package))
 
 ;; straight.el bootstrap
+(declare-function straight-use-package ())
 (defvar bootstrap-version)
 (let ((bootstrap-file
        (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
@@ -63,7 +68,7 @@
         helm-autoresize-min-height                0  ; it is %.
         helm-debug-root-directory                 "~/.emacs.d/.tmp/helm-debug"
         helm-follow-mode-persistent               t
-        helm-candidate-number-limit               500)
+        helm-candidate-number-limit               500
         helm-visible-mark-prefix                  "✓")
   (use-package helm-ag)
   :init
@@ -72,12 +77,18 @@
 
 ;; company.el
 (use-package company
+  :commands
+  (global-company-mode
+   company-idle-delay
+   minimum-prefix-length
+   company-dabbrev-other-buffers
+   company-dabbrev-code-other-buffers)
   :init
   (global-company-mode)
   (setq company-idle-delay 0
 	minimum-prefix-length 0
 	company-dabbrev-other-buffers t
-	company-dabbev-code-other-buffers t)
+	company-dabbrev-code-other-buffers t)
   :hook
   ((text-mode . company-mode)
    (prog-mode . company-mode)))
@@ -90,18 +101,21 @@
   (:map company-active-map
 	("C-:" . helm-company)))
 
+;; helm-xref.el
+(use-package helm-xref)
+
 ;; lsp-mode.el
 (use-package lsp-mode
   :init
   (setq lsp-keymap-prefix "C-l")
   :hook
-  (typescript-mode . lsp)
+  (typescript-mode . lsp-deferred)
   (lsp-mode . lsp-enable-which-key-integration)
   :commands lsp)
 
 ;; lsp-ui.el
 (use-package lsp-ui
-  :commands lsp-ui-mode
+  :commands lsp-ui-mode lsp-ui-mode-map
   :init
   (setq lsp-log-io nil
 	lsp-restart 'auto-restart
@@ -115,7 +129,8 @@
 	lsp-ui-doc-show-with-mouse t)
   :bind (:map lsp-ui-mode-map
 	      ([remap xref-find-definitions] . lsp-ui-peek-find-definitions)
-	      ([remap xref-find-references] . lsp-ui-peek-find-references)))
+	      ([remap xref-find-references] . lsp-ui-peek-find-references)
+	      ("C-c i" . lsp-ui-imenu)))
 
 ;; helm-lsp.el
 (use-package helm-lsp
@@ -123,17 +138,27 @@
   (:map lsp-mode-map
 	([remap xref-find-apropos] . helm-lsp-workspace-symbol)))
 
+;; flycheck.el
+(use-package flycheck
+  :init
+  (global-flycheck-mode))
+
 ;; dap-mode.el
-(use-package dap-mode)
+(use-package dap-mode
+  :init
+  (dap-mode 1)
+  (dap-ui-mode 1)
+  (dap-tooltip-mode 1)
+  (dap-ui-controls-mode 1))
 
 ;; yasnippet.el
 (use-package yasnippet
   :init
-  (yas-global-mode 1))
-(use-package yasnippet-snippets)
+  (yas-global-mode 1)
+  (setq yas-snippet-dirs
+	'("~/.emacs.d/snippets")))
 
-(setq yas-snippet-dirs
-      '("~/.emacs.d/snippets"))
+(use-package yasnippet-snippets)
 
 ;; projectile.el
 (use-package projectile
@@ -234,10 +259,6 @@
 
 ;;; json
 (setq-default json-indent-level 2)
-;; (use-package json-mode
-;;   :mode "\\.json$"
-;;   :config
-;;   (add-to-list 'flycheck-disabled-checkers 'json-python-json))
 
 ;;;  javascript
 (setq-default js-indent-level 2)
@@ -247,51 +268,33 @@
 ;; typescript
 (use-package typescript-mode
   :mode "\\.tsx?$"
+  :config
+  (setq typescript-indent-level 2)
   :hook
-  (typescript-mode . lsp))
+  (typescript-mode . lsp-deferred))
 
 ;; styled-components
 (use-package web-mode)
-(use-package graphql-mode)
-(use-package scss-mode)
 
-(defun mmm-reapply ()
-  (mmm-mode)
-  (mmm-mode))
-(use-package mmm-mode
+(use-package polymode
   :init
-  (setq mmm-global-mode t
-	mmm-submode-decoration-level 0)
-  (mmm-add-classes
-   '((mmm-styled-mode
-      :submode css-mode
-      :front "\\(styled\\|css\\)[.{}()<>;:\n\s\t[:alnum:]]?+`"
-      :back "`;")))
-  (mmm-add-mode-ext-class 'typescript-mode nil 'mmm-styled-mode)
-  (mmm-add-classes
-   '((mmm-graphql-mode
-      :submode graphql-mode
-      :front "gr?a?p?h?ql`"
-      :back "`;")))
-  (mmm-add-mode-ext-class 'typescript-mode nil 'mmm-graphql-mode)
-  (mmm-add-classes
-   '((mmm-jsx-mode
-      :front "\\(return\s\\|\s\\|(\n\s*\\)<"
-      :front-offset -1
-      :back ">\n?\s*)"
-      :back-offset 1
-      :submode web-mode)))
-  (mmm-add-mode-ext-class 'typescript-mode nil 'mmm-jsx-mode)
-  ;; (mmm-add-classes
-  ;;  '((mmm-ts-interpolate-mode
-  ;;     :front "\${"
-  ;;     :back "}"
-  ;;     :submode typescript-mode)))
-  ;; (mmm-add-mode-ext-class 'typescript-mode nil 'mmm-ts-interpolate-mode)
-  (add-hook 'after-save-hook
-	    (lambda ()
-	      (when (string-match-p "\\.tsx?" buffer-file-name)
-		(mmm-reapply)))))
+  (define-hostmode poly-typescript-hostmode
+    :mode 'typescript-mode)
+  (define-innermode poly-css-innermode
+    :mode 'css-mode
+    :head-matcher "\\(styled\\|css\\)[.{}()<>;:\n\s\t[:alnum:]]?+`"
+    :tail-matcher "`;"
+    :head-mode 'host
+    :tail-mode 'host)
+  (define-innermode poly-web-innermode
+    :mode 'web-mode
+    :head-matcher "\\(styled\\|css\\)[.{}()<>;:\n\s\t[:alnum:]]?+`"
+    :tail-matcher "`;"
+    :head-mode 'host
+    :tail-mode 'host)
+  (define-polymode poly-typescript-mode
+    :innermodes '(poly-css-innermode
+		  poly-web-innermode)))
 
 ;; prettier.el
 (use-package prettier
@@ -331,6 +334,7 @@
 ;;
 ;;
 (global-set-key (kbd "C-M-c")                        'undefined)
+(global-set-key (kbd "M-c")                          'undefined)
 (global-set-key (kbd "C-z")                          'undo)
 (global-set-key (kbd "C-x M-k")                      'kill-buffer-and-window)
 (global-set-key (kbd "M-x")                          'undefined)
@@ -342,7 +346,6 @@
 (global-set-key (kbd "C-c <SPC>")                    'helm-all-mark-rings)
 (global-set-key [remap bookmark-jump]                'helm-filtered-bookmarks)
 (global-set-key (kbd "C-:")                          'helm-eval-expression-with-eldoc)
-;; (global-set-key (kbd "C-,")                          'helm-calcul-expression)
 (global-set-key (kbd "C-h d")                        'helm-info-at-point)
 (global-set-key (kbd "C-h i")                        'helm-info)
 (global-set-key (kbd "C-x C-d")                      'helm-browse-project)
@@ -426,3 +429,7 @@
  '(helm-ff-file-extension ((t (:extend t :foreground "coral1"))))
  '(lsp-headerline-breadcrumb-path-error-face ((t (:inherit lsp-headerline-breadcrumb-path-face))))
  '(telephone-line-unimportant ((t (:inherit mode-line :background "gray10" :foreground "dim grey")))))
+
+
+
+;;; init.el ends here
