@@ -63,7 +63,7 @@
         helm-autoresize-min-height                0  ; it is %.
         helm-debug-root-directory                 "~/.emacs.d/.tmp/helm-debug"
         helm-follow-mode-persistent               t
-        helm-candidate-number-limit               500
+        helm-candidate-number-limit               500)
         helm-visible-mark-prefix                  "✓")
   (use-package helm-ag)
   :init
@@ -381,6 +381,8 @@
 (set-fringe-mode 10)
 (menu-bar-mode -1)
 (scroll-bar-mode -1)
+
+(prefer-coding-system 'utf-8)
 
 ;; sessions
 (defvar desktop-buffers-not-to-save)
