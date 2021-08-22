@@ -25,14 +25,15 @@ transient/
 *.cache
 
 # language server session data
-.lsp-session*/
+.lsp-session*
+server/
 
 # dap debugging breakpoints
 .dap-breakpoints
 
 # desktop save state
-.desktop
-.desktop.lock
+.emacs-desktop
+.emacs.desktop.lock
 
 # projectile files
 *.eld
