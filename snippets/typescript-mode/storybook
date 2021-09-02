@@ -1,0 +1,19 @@
+# -*- mode: snippet -*-
+# name: storybook
+# key: storybook
+# --
+import React from "react";
+import { Meta, Story } from "@storybook/react";
+import { ${1:component}, $1Props } from "./$1";
+
+export default {
+  title: "$0$1",
+  component: $1
+} as Meta;
+
+const Template: Story<$1Props> = args => (
+  <$1 {...args} />
+)
+
+export const Default = Template.bind({})
+Default.args = {}

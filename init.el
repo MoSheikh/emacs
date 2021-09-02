@@ -50,16 +50,17 @@
   (require 'helm-config)
   (setq helm-input-idle-delay                     0.01
         helm-reuse-last-window-split-state        t
-        helm-always-two-windows                   t
-        helm-split-window-inside-p                nil
+        helm-always-two-windows                   nil
+        helm-split-window-inside-p                t
         helm-commands-using-frame                 '(completion-at-point
                                                     helm-apropos
-                                                    helm-eshell-prompts helm-imenu
+                                                    helm-eshell-prompts
+						    helm-imenu
                                                     helm-imenu-in-all-buffers)
         helm-actions-inherit-frame-settings       t
-        helm-use-frame-when-more-than-two-windows t
+        helm-use-frame-when-more-than-two-windows nil
         helm-use-frame-when-dedicated-window      t
-        helm-frame-background-color               "DarkSlateGray"
+        helm-frame-background-color               "#45534f"
         helm-show-action-window-other-window      'left
         helm-allow-mouse                          t
         helm-move-to-line-cycle-in-source         t
@@ -169,6 +170,7 @@
   (projectile-mode +1)
   (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map))
 
+;; helm-projectile.el
 (use-package helm-projectile
   :config
   (setq projectile-indexing-method 'alien)
@@ -278,6 +280,7 @@
 
 ;; prettier.el
 (use-package prettier
+  :defer t
   :hook
   ((typescript-mode json-mode) . prettier-mode))
 

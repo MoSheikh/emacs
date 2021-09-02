@@ -10,7 +10,7 @@
 
 ;;; Code:
 
-(setq byte-compile-warnings '(cl-functions))
+;; (setq byte-compile-warnings '(cl-functions))
 
 
 (defvar gc-cons-threshold)
@@ -18,12 +18,12 @@
 (defvar comp-deferred-compilation)
 (defvar native-comp-deferred-compilation)
 ;; temporarily increase garbage collection limits
-(setq gc-cons-threshold most-positive-fixnum
-      gc-cons-percentage 0.6)
+;; (setq gc-cons-threshold most-positive-fixnum
+;;      gc-cons-percentage 0.6)
 
 ;; delay runtime compilation for gccemacs
-(setq comp-deferred-compilation nil
-      native-comp-deferred-compilation nil)
+;; (setq comp-deferred-compilation nil
+;;      native-comp-deferred-compilation nil)
 
 ;; prioritize non-btye-compiled source files
 (setq load-prefer-newer noninteractive)
@@ -43,7 +43,7 @@
   (run-at-time
    1 nil (lambda () (setq gc-cons-threshold 16777216))))
 
-(add-hook 'minibuffer-setup-hook #'defer-garbage-collection-h)
-(add-hook 'minibuffer-exit-hook #'restore-garbage-collection-h)
+;; (add-hook 'minibuffer-setup-hook #'defer-garbage-collection-h)
+;; (add-hook 'minibuffer-exit-hook #'restore-garbage-collection-h)
 
 ;;; early-init.el ends here

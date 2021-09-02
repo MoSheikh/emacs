@@ -1,0 +1,23 @@
+# -*- mode: snippet -*-
+# name: hc
+# key: hc
+# --
+
+import React, { ComponentProps } from "react";
+import styled from "styled-components";
+import { HC } from "@/util/react";
+
+export type ${1:Component}Props = ComponentProps<typeof $1>
+export const $1: HC<{
+  $0
+\}, ${2:Element}> = ({
+  ...rest
+}) => {
+  return (
+    <Container>
+
+    </Container>
+  )
+}
+
+const Container = styled.div\`\`
