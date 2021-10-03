@@ -296,6 +296,16 @@
   (terraform-mode-hook . terraform-format-on-save-mode))
 
 
+;; disable revert-buffer confirmation when no changes are made
+(defun revert-buffer-no-confirm ()
+  "Revert buffer without confirmation."
+  (interactive) (revert-buffer t t))
+
+;; alternatively:
+;; (setq revert-without-query ’(".*"))
+
+(global-set-key (kbd "C-M-r") 'revert-buffer-no-confirm)
+
 ;;; Ctl-x-5 map
 ;;
 (define-key ctl-x-5-map (kbd "C-x c t") 'helm-top-in-frame)
@@ -397,9 +407,6 @@
 
 ;; startup
 (setq inhibit-startup-screen t)
-
-;; disable revert-buffer confirmation when no changes are made
-(setq revert-without-query '(".*"))
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
