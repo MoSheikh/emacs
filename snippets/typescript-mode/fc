@@ -1,0 +1,17 @@
+# -*- mode: snippet -*-
+# name: fc
+# key: fc
+# --
+
+import React from "react";
+import styled from "styled-components";
+import { ElementProps, FC } from "@/util/react";
+
+export type ${1:Component}Props = ElementProps<\{
+  
+\}, HTML$2Element>
+export const $1: FC<$1Props> = ({
+  ...rest
+}) => {
+  return <></>
+}

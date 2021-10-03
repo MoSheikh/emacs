@@ -286,8 +286,15 @@
 
 ;; jest
 (use-package jest
-     :after (typescript-mode)
-     :hook (typescript-mode . jest-minor-mode))
+  :after (typescript-mode)
+  :hook (typescript-mode . jest-minor-mode))
+
+;; terraform-mode
+(use-package terraform-mode
+  :mode "\\.tf$"
+  :hook
+  (terraform-mode-hook . terraform-format-on-save-mode))
+
 
 ;;; Ctl-x-5 map
 ;;
@@ -319,6 +326,7 @@
 (global-set-key (kbd "C-M-c")                        'undefined)
 (global-set-key (kbd "M-c")                          'undefined)
 (global-set-key (kbd "C-z")                          'undo)
+(global-set-key (kbd "C-M-l")                        'recenter-top-bottom)
 (global-set-key (kbd "C-x M-k")                      'kill-buffer-and-window)
 (global-set-key (kbd "M-x")                          'undefined)
 (global-set-key (kbd "M-x")                          'helm-M-x)
@@ -367,6 +375,8 @@
 (set-fringe-mode 10)
 (menu-bar-mode -1)
 (scroll-bar-mode -1)
+(electric-pair-mode 1)
+(electric-quote-mode 1)
 
 (prefer-coding-system 'utf-8)
 
@@ -388,7 +398,8 @@
 ;; startup
 (setq inhibit-startup-screen t)
 
-
+;; disable revert-buffer confirmation when no changes are made
+(setq revert-without-query '(".*"))
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -396,8 +407,17 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(custom-safe-themes
-   '("4b0e826f58b39e2ce2829fab8ca999bcdc076dec35187bf4e9a4b938cb5771dc" "8d7b028e7b7843ae00498f68fad28f3c6258eda0650fe7e17bfb017d51d0e2a2" "e8df30cd7fb42e56a4efc585540a2e63b0c6eeb9f4dc053373e05d774332fc13" "266ecb1511fa3513ed7992e6cd461756a895dcc5fef2d378f165fed1c894a78c" "e19ac4ef0f028f503b1ccafa7c337021834ce0d1a2bca03fcebc1ef635776bea" "da186cce19b5aed3f6a2316845583dbee76aea9255ea0da857d1c058ff003546" "234dbb732ef054b109a9e5ee5b499632c63cc24f7c2383a849815dacc1727cb6" "8146edab0de2007a99a2361041015331af706e7907de9d6a330a3493a541e5a6" "7a7b1d475b42c1a0b61f3b1d1225dd249ffa1abb1b7f726aec59ac7ca3bf4dae" "47db50ff66e35d3a440485357fb6acb767c100e135ccdf459060407f8baea7b2" "a0be7a38e2de974d1598cf247f607d5c1841dbcef1ccd97cded8bea95a7c7639" "1d5e33500bc9548f800f9e248b57d1b2a9ecde79cb40c0b1398dec51ee820daf" "1704976a1797342a1b4ea7a75bdbb3be1569f4619134341bd5a4c1cfb16abad4" default))
+   '("4b6b6b0a44a40f3586f0f641c25340718c7c626cbf163a78b5a399fbe0226659" "4b0e826f58b39e2ce2829fab8ca999bcdc076dec35187bf4e9a4b938cb5771dc" "8d7b028e7b7843ae00498f68fad28f3c6258eda0650fe7e17bfb017d51d0e2a2" "e8df30cd7fb42e56a4efc585540a2e63b0c6eeb9f4dc053373e05d774332fc13" "266ecb1511fa3513ed7992e6cd461756a895dcc5fef2d378f165fed1c894a78c" "e19ac4ef0f028f503b1ccafa7c337021834ce0d1a2bca03fcebc1ef635776bea" "da186cce19b5aed3f6a2316845583dbee76aea9255ea0da857d1c058ff003546" "234dbb732ef054b109a9e5ee5b499632c63cc24f7c2383a849815dacc1727cb6" "8146edab0de2007a99a2361041015331af706e7907de9d6a330a3493a541e5a6" "7a7b1d475b42c1a0b61f3b1d1225dd249ffa1abb1b7f726aec59ac7ca3bf4dae" "47db50ff66e35d3a440485357fb6acb767c100e135ccdf459060407f8baea7b2" "a0be7a38e2de974d1598cf247f607d5c1841dbcef1ccd97cded8bea95a7c7639" "1d5e33500bc9548f800f9e248b57d1b2a9ecde79cb40c0b1398dec51ee820daf" "1704976a1797342a1b4ea7a75bdbb3be1569f4619134341bd5a4c1cfb16abad4" default))
  '(git-gutter:update-interval 1)
+ '(helm-always-two-windows nil)
+ '(helm-commands-using-frame
+   '(completion-at-point helm-apropos helm-eshell-prompts helm-imenu helm-imenu-in-all-buffers))
+ '(helm-frame-background-color "#353535")
+ '(helm-reuse-last-window-split-state t)
+ '(helm-show-action-window-other-window 'left)
+ '(helm-split-window-inside-p t)
+ '(helm-use-frame-when-dedicated-window nil)
+ '(lsp-clients-verilog-executable '("hdl_checker" "--lsp"))
  '(lsp-headerline-breadcrumb-icons-enable nil)
  '(telephone-line-mode t))
 (custom-set-faces
