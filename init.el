@@ -14,9 +14,8 @@
 
 ;; use-package.el bootstrap
 (when (not (package-installed-p 'use-package))
-  progn(
-	(package-refresh-contents)
-	(package-install 'use-package)))
+  (package-refresh-contents)
+  (package-install 'use-package))
 
 (setq-default use-package-always-ensure t
 	      use-package-always-defer t
