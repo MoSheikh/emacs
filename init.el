@@ -295,6 +295,12 @@
   :hook
   (terraform-mode-hook . terraform-format-on-save-mode))
 
+(when (memq window-system '(mac ns x))
+  (use-package exec-path-from-shell
+    :ensure t)
+  (exec-path-from-shell-initialize))
+
+(use-package exec-path-from-shell)
 
 ;; disable revert-buffer confirmation when no changes are made
 (defun revert-buffer-no-confirm ()
