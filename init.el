@@ -295,6 +295,8 @@
   :hook
   (terraform-mode-hook . terraform-format-on-save-mode))
 
+(setq split-width-threshold 0)
+(setq split-height-threshold nil)
 
 ;; disable revert-buffer confirmation when no changes are made
 (defun revert-buffer-no-confirm ()
