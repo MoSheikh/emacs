@@ -295,6 +295,11 @@
   :hook
   (terraform-mode-hook . terraform-format-on-save-mode))
 
+(use-package editorconfig
+  :ensure t
+  :config
+  (editorconfig-mode 1))
+
 (setq split-width-threshold 0)
 (setq split-height-threshold nil)
 
