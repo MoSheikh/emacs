@@ -270,19 +270,19 @@
 (setq-default typescript-indent-level 2)
 (setq-default css-indent-level 2)
 
-;; typescript
-(use-package typescript-mode
-  :mode "\\.tsx?$"
-  :config
-  (setq typescript-indent-level 2)
-  :hook
-  (typescript-mode . lsp-deferred))
+;; ;; typescript
+;; (use-package typescript-mode
+;;   :mode "\\.tsx?$"
+;;   :config
+;;   (setq typescript-indent-level 2)
+;;   :hook
+;;   (typescript-mode . lsp-deferred))
 
 ;; prettier.el
-(use-package prettier
-  :defer t
-  :hook
-  ((typescript-mode json-mode) . prettier-mode))
+;; (use-package prettier
+;;   :defer t
+;;   :hook
+;;   ((typescript-mode json-mode) . prettier-mode))
 
 ;; jest
 (use-package jest
@@ -302,6 +302,71 @@
 
 (setq split-width-threshold 0)
 (setq split-height-threshold nil)
+
+(use-package typescript-mode
+  :ensure t
+  :mode "\\.ts$"
+  :init
+  (define-derived-mode tsx-mode typescript-mode "tsx")
+  :config
+  (setq typescript-indent-level 2)
+  (add-hook 'typescript-mode #'subword-mode)
+  (add-to-list 'auto-mode-alist '("\\.tsx$\\'" . tsx-mode)))
+
+(use-package tree-sitter
+  :ensure t
+  :hook ((typescript-mode . tree-sitter-hl-mode)
+	 (typescript-tsx-mode . tree-sitter-hl-mode)))
+
+(defvar tree-sitter-major-mode-language-alist)
+(use-package tree-sitter-langs
+  :ensure t
+  :after tree-sitter
+  :config
+  (tree-sitter-require 'tsx)
+  (add-to-list 'tree-sitter-major-mode-language-alist '(tsx-mode . tsx)))
+
+(use-package web-mode
+  :hook ((web-mode . lsp)
+         (tsx-mode . lsp))
+  :mode (("\\.html\\'" . web-mode)
+         ("\\.html\\.eex\\'" . web-mode)
+         ("\\.html\\.tera\\'" . web-mode)
+         ("\\.tsx\\'" . tsx-mode))
+  :init
+  (define-derived-mode tsx-mode typescript-mode "tsx")
+  :config
+  (setq web-mode-markup-indent-offset 2
+        web-mode-css-indent-offset 2
+        web-mode-code-indent-offset 2))
+
+(use-package prettier
+  :defer t
+  :hook ((tsx-mode . prettier-mode)
+         (typescript-mode . prettier-mode)
+         (js-mode . prettier-mode)
+         (json-mode . prettier-mode)
+         (css-mode . prettier-mode)
+         (scss-mode . prettier-mode)))
+
+;; ;; web-mode
+;; (use-package web-mode
+;;   :ensure t
+;;   :mode (("\\.jsx?$" . web-mode)
+;;          ("\\.tsx?$" . web-mode)
+;;          ("\\.html\\'" . web-mode)
+;;          ("\\.vue\\'" . web-mode)
+;; 	 ("\\.json\\'" . web-mode))
+;;   ;; :hook
+;;   ;; (web-mode . typescript-mode)
+;;   :commands web-mode
+;;   :hook
+;;   (web-mode-hook . (lambda ()
+;; 		     (when (string-equal "tsx" (file-name-extension buffer-file-name))
+;; 		       (typescript-mode))))
+;;   :config
+;;   (setq web-mode-content-types-alist
+;; 	'(("(j|t)sx" . "\\.(j|t)s[x]?\\'"))))
 
 ;; disable revert-buffer confirmation when no changes are made
 (defun revert-buffer-no-confirm ()
@@ -421,7 +486,7 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(custom-safe-themes
-   '("4b6b6b0a44a40f3586f0f641c25340718c7c626cbf163a78b5a399fbe0226659" "4b0e826f58b39e2ce2829fab8ca999bcdc076dec35187bf4e9a4b938cb5771dc" "8d7b028e7b7843ae00498f68fad28f3c6258eda0650fe7e17bfb017d51d0e2a2" "e8df30cd7fb42e56a4efc585540a2e63b0c6eeb9f4dc053373e05d774332fc13" "266ecb1511fa3513ed7992e6cd461756a895dcc5fef2d378f165fed1c894a78c" "e19ac4ef0f028f503b1ccafa7c337021834ce0d1a2bca03fcebc1ef635776bea" "da186cce19b5aed3f6a2316845583dbee76aea9255ea0da857d1c058ff003546" "234dbb732ef054b109a9e5ee5b499632c63cc24f7c2383a849815dacc1727cb6" "8146edab0de2007a99a2361041015331af706e7907de9d6a330a3493a541e5a6" "7a7b1d475b42c1a0b61f3b1d1225dd249ffa1abb1b7f726aec59ac7ca3bf4dae" "47db50ff66e35d3a440485357fb6acb767c100e135ccdf459060407f8baea7b2" "a0be7a38e2de974d1598cf247f607d5c1841dbcef1ccd97cded8bea95a7c7639" "1d5e33500bc9548f800f9e248b57d1b2a9ecde79cb40c0b1398dec51ee820daf" "1704976a1797342a1b4ea7a75bdbb3be1569f4619134341bd5a4c1cfb16abad4" default))
+   '("a6e620c9decbea9cac46ea47541b31b3e20804a4646ca6da4cce105ee03e8d0e" "745d03d647c4b118f671c49214420639cb3af7152e81f132478ed1c649d4597d" "a82ab9f1308b4e10684815b08c9cac6b07d5ccb12491f44a942d845b406b0296" "d47f868fd34613bd1fc11721fe055f26fd163426a299d45ce69bef1f109e1e71" "f91395598d4cb3e2ae6a2db8527ceb83fed79dbaf007f435de3e91e5bda485fb" "850bb46cc41d8a28669f78b98db04a46053eca663db71a001b40288a9b36796c" "cbdf8c2e1b2b5c15b34ddb5063f1b21514c7169ff20e081d39cf57ffee89bc1e" "d6844d1e698d76ef048a53cefe713dbbe3af43a1362de81cdd3aefa3711eae0d" "9b54ba84f245a59af31f90bc78ed1240fca2f5a93f667ed54bbf6c6d71f664ac" "f7fed1aadf1967523c120c4c82ea48442a51ac65074ba544a5aefc5af490893b" "0466adb5554ea3055d0353d363832446cd8be7b799c39839f387abb631ea0995" "a9a67b318b7417adbedaab02f05fa679973e9718d9d26075c6235b1f0db703c8" "97db542a8a1731ef44b60bc97406c1eb7ed4528b0d7296997cbb53969df852d6" "835868dcd17131ba8b9619d14c67c127aa18b90a82438c8613586331129dda63" "6f4421bf31387397f6710b6f6381c448d1a71944d9e9da4e0057b3fe5d6f2fad" "b0e446b48d03c5053af28908168262c3e5335dcad3317215d9fdeb8bac5bacf9" "4b6b6b0a44a40f3586f0f641c25340718c7c626cbf163a78b5a399fbe0226659" "4b0e826f58b39e2ce2829fab8ca999bcdc076dec35187bf4e9a4b938cb5771dc" "8d7b028e7b7843ae00498f68fad28f3c6258eda0650fe7e17bfb017d51d0e2a2" "e8df30cd7fb42e56a4efc585540a2e63b0c6eeb9f4dc053373e05d774332fc13" "266ecb1511fa3513ed7992e6cd461756a895dcc5fef2d378f165fed1c894a78c" "e19ac4ef0f028f503b1ccafa7c337021834ce0d1a2bca03fcebc1ef635776bea" "da186cce19b5aed3f6a2316845583dbee76aea9255ea0da857d1c058ff003546" "234dbb732ef054b109a9e5ee5b499632c63cc24f7c2383a849815dacc1727cb6" "8146edab0de2007a99a2361041015331af706e7907de9d6a330a3493a541e5a6" "7a7b1d475b42c1a0b61f3b1d1225dd249ffa1abb1b7f726aec59ac7ca3bf4dae" "47db50ff66e35d3a440485357fb6acb767c100e135ccdf459060407f8baea7b2" "a0be7a38e2de974d1598cf247f607d5c1841dbcef1ccd97cded8bea95a7c7639" "1d5e33500bc9548f800f9e248b57d1b2a9ecde79cb40c0b1398dec51ee820daf" "1704976a1797342a1b4ea7a75bdbb3be1569f4619134341bd5a4c1cfb16abad4" default))
  '(git-gutter:update-interval 1)
  '(helm-always-two-windows nil)
  '(helm-commands-using-frame
