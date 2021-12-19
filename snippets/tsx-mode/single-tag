@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# name: closing-tag
+# key: </
+# --
+
+<$1/>
