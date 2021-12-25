@@ -287,7 +287,8 @@
 ;; jest
 (use-package jest
   :after (typescript-mode)
-  :hook (typescript-mode . jest-minor-mode))
+  :hook ((typescript-mode . jest-minor-mode)
+	 (tsx-mode . jest-minor-mode)))
 
 ;; terraform-mode
 (use-package terraform-mode
