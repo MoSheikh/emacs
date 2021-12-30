@@ -262,6 +262,10 @@
   :mode "\\.md$"
   :init (setq markdown-command "multimarkdown"))
 
+;;; dockerfile
+(use-package dockerfile-mode
+  :mode "\\Dockerfile$")
+
 ;;; json
 (setq-default json-indent-level 2)
 
