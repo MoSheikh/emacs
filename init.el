@@ -248,6 +248,11 @@
   (setq telephone-line-lhs
 	`((accent . (telephone-line-vc-segment))
 	  (nil . (telephone-line-buffer-name-segment))))
+  (setq telephone-line-rhs
+	`((nil telephone-line-flycheck-segment telephone-line-misc-info-segment)
+	  (accent telephone-line-major-mode-segment)
+	  (nil telephone-line-atom-eol-segment)
+	  (evil telephone-line-airline-position-segment)))
   (telephone-line-mode 1))
 
 ;; all-the-icons.el
