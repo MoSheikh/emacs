@@ -64,8 +64,8 @@
         helm-show-action-window-other-window      'left
         helm-allow-mouse                          t
         helm-move-to-line-cycle-in-source         t
-        helm-autoresize-max-height                38 ; it is %.
-        helm-autoresize-min-height                0  ; it is %.
+        helm-autoresize-max-height                5 ; it is %.
+        helm-autoresize-min-height                35 ; it is %.
         helm-debug-root-directory                 "~/.emacs.d/.tmp/helm-debug"
         helm-follow-mode-persistent               t
         helm-candidate-number-limit               500
