@@ -364,6 +364,23 @@
          (css-mode . prettier-mode)
          (scss-mode . prettier-mode)))
 
+(use-package polymode
+  :ensure t)
+
+(define-hostmode poly-typescript-hostmode
+  :mode 'typescript-mode)
+
+(define-innermode poly-typescript-raw-sql-innermode
+		  :mode 'sql-mode
+		  :head-matcher "raw(`"
+		  :tail-matcher "`"
+		  :head-mode 'host
+		  :tail-mode 'host)
+
+(define-polymode poly-typescript-mode
+		 :hostmode 'poly-typescript-hostmode
+		 :innermodes '(poly-typescript-raw-sql-innermode))
+
 ;; ;; web-mode
 ;; (use-package web-mode
 ;;   :ensure t
