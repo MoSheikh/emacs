@@ -115,6 +115,7 @@
   :hook
   (typescript-mode . lsp-deferred)
   (lsp-mode . lsp-enable-which-key-integration)
+  :bind (("M-RET" . lsp-execute-code-action))
   :commands lsp)
 
 ;; lsp-ui.el
