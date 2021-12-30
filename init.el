@@ -537,6 +537,8 @@
  '(helm-use-frame-when-dedicated-window nil)
  '(lsp-clients-verilog-executable '("hdl_checker" "--lsp"))
  '(lsp-headerline-breadcrumb-icons-enable nil)
+ '(projectile-project-root-functions
+   '(projectile-root-local projectile-root-top-down projectile-root-top-down-recurring))
  '(telephone-line-mode t))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
