@@ -266,6 +266,10 @@
 (use-package dockerfile-mode
   :mode "\\Dockerfile$")
 
+;;; .env
+(use-package dotenv-mode
+  :mode "\\.env")
+
 ;;; json
 (setq-default json-indent-level 2)
 
