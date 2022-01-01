@@ -277,6 +277,17 @@
 (use-package dotenv-mode
   :mode "\\.env")
 
+;;; go
+(defun lsp-go-install-save-hooks ()
+  (add-hook 'before-save-hook #'lsp-format-buffer t t)
+  (add-hook 'before-save-hook #'lsp-organize-imports t t))
+
+(use-package go-mode
+  :mode "\\.go$"
+  :hook
+  (go-mode-hook . lsp-go-install-save-hooks)
+  (go-mode-hook . lsp-deferred))
+
 ;;; json
 (setq-default json-indent-level 2)
 
