@@ -169,6 +169,7 @@
 (use-package projectile
   :init
   (projectile-mode +1)
+  (setq projectile-auto-discover nil)
   (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map))
 
 ;; helm-projectile.el
