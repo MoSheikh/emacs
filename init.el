@@ -403,7 +403,19 @@
 ;; startup
 (setq inhibit-startup-screen t)
 
-
+;; fullscreen
+(set-frame-parameter nil 'fullscreen 'fullboth)
+(defun toggle-fullscreen()
+  "Toggle fullscren mode for X11."
+  (interactive)
+  (when (eq window-system 'x)
+    (cond ((not (eq (frame-parameter nil 'fullscreen) 'fullheight))
+	   (progn
+		  (set-frame-parameter nil 'fullscreen 'maximized)
+		  (set-frame-parameter nil 'fullscreen 'fullheight)))
+	  ((not (eq (frame-parameter nil 'fullscreen) 'fullboth))
+	   (set-frame-parameter nil 'fullscreen 'fullboth)))))
+(global-set-key (kbd "<f11> <f11>") 'toggle-fullscreen)
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
