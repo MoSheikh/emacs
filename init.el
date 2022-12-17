@@ -47,7 +47,6 @@
 (use-package helm
   :straight t
   :config
-  (require 'helm-config)
   (setq helm-input-idle-delay                     0.01
         helm-reuse-last-window-split-state        t
         helm-always-two-windows                   t
