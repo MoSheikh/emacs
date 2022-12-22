@@ -96,7 +96,7 @@
   :bind
   (:map company-mode-map
 	("C-:" . helm-company)
-	("M-." . company-complete)))
+	("C-M-i" . company-complete)))
 
 ;; helm-xref.el
 (use-package helm-xref)
@@ -244,20 +244,24 @@
 ;; all-the-icons.el
 (use-package all-the-icons)
 
-;;; org
+;; org
 (use-package org-bullets
   :hook
   (org-mode . org-bullets-mode))
 
-;;; markdown
+;; dotenv
+(use-package dotenv-mode
+  :mode "\\.env\\..*")
+
+;; markdown
 (use-package markdown-mode
   :mode "\\.md$"
   :init (setq markdown-command "multimarkdown"))
 
-;;; json
+;; json
 (setq-default json-indent-level 2)
 
-;;;  javascript
+;; javascript
 (setq-default js-indent-level 2)
 (setq-default typescript-indent-level 2)
 (setq-default css-indent-level 2)
