@@ -95,9 +95,8 @@
 (use-package helm-company
   :bind
   (:map company-mode-map
-	("C-:" . helm-company))
-  (:map company-active-map
-	("C-:" . helm-company)))
+	("C-:" . helm-company)
+	("M-." . company-complete)))
 
 ;; helm-xref.el
 (use-package helm-xref)
