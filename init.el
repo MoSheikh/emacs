@@ -274,6 +274,10 @@
   :hook
   (typescript-mode . lsp-deferred))
 
+;; yaml
+(use-package yaml-mode
+  :mode "\\.ya?ml$")
+
 ;; styled-components
 (use-package web-mode)
 
@@ -321,8 +325,7 @@
 
 ;;; Helm-command map
 ;;
-;;
-(define-key helm-command-map (kbd "g")  'helm-apt)
+(define-key helm-command-map (kbd "g") 'helm-apt)
 (define-key helm-command-map (kbd "z") 'helm-complex-command-history)
 (define-key helm-command-map (kbd "w") 'helm-w3m-bookmarks)
 (define-key helm-command-map (kbd "x") 'helm-firefox-bookmarks)
@@ -332,7 +335,6 @@
 
 
 ;;; Global-map
-;;
 ;;
 (global-set-key (kbd "C-M-c")                        'undefined)
 (global-set-key (kbd "M-c")                          'undefined)
