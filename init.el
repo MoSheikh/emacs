@@ -323,6 +323,12 @@
      :after (typescript-mode)
      :hook (typescript-mode . jest-minor-mode))
 
+;; string-inflection
+(use-package string-inflection
+  :bind
+  ("C-c s" . string-inflection-snakecase)
+  ("C-c c" . string-inflection-lower-camelcase))
+
 ;;; Ctl-x-5 map
 ;;
 (define-key ctl-x-5-map (kbd "C-x c t") 'helm-top-in-frame)
