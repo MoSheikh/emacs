@@ -261,6 +261,10 @@
   :hook
   (org-mode . org-bullets-mode))
 
+;; docker
+(use-package dockerfile-mode
+  :mode "\\Dockerfile\\..*")
+
 ;; dotenv
 (use-package dotenv-mode
   :mode "\\.env\\..*")
