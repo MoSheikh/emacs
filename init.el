@@ -209,7 +209,7 @@
 ;; ace-jump-mode.el
 (use-package ace-jump-mode
   :bind
-  ("C-," . ace-jump-mode))
+  ("C-M-c" . ace-jump-mode))
 
 ;; ace-window.el
 (use-package ace-window
@@ -281,6 +281,20 @@
 (setq-default js-indent-level 2)
 (setq-default typescript-indent-level 2)
 (setq-default css-indent-level 2)
+
+;; python
+(use-package lsp-pyright
+  :ensure t
+  :mode "\\.py$"
+  :config
+  (setq python-indent-level 4)
+  :hook
+  (python-mode . (lambda ()
+		   (require 'lsp-pyright)
+		   (lsp-deferred))))
+
+(use-package python-mode
+  :mode "\\.py$")
 
 ;; typescript
 (use-package typescript-mode
@@ -358,7 +372,7 @@
 
 ;;; Global-map
 ;;
-(global-set-key (kbd "C-M-c")                        'undefined)
+(global-set-key (kbd "C-M-c")                        'ace-jump-mode)
 (global-set-key (kbd "M-c")                          'undefined)
 (global-set-key (kbd "C-z")                          'undo)
 (global-set-key (kbd "C-x M-k")                      'kill-buffer-and-window)
@@ -403,12 +417,14 @@
 ;; customization
 (global-display-line-numbers-mode)
 (column-number-mode 1)
-(scroll-bar-mode 1)
+(if (boundp 'x-toolkit-scroll-bars)
+    (progn
+      (load "scroll-bar")
+      (scroll-bar-mode -1)
+      (set-fringe-mode 10)))
 (tool-bar-mode -1)
 (tooltip-mode -1)
-(set-fringe-mode 10)
 (menu-bar-mode -1)
-(scroll-bar-mode -1)
 (electric-pair-mode t)
 
 (prefer-coding-system 'utf-8)
