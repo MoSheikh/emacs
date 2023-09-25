@@ -192,7 +192,9 @@
   (doom-themes-visual-bell-config))
 
 ;; magit.el
-(use-package magit)
+(use-package magit
+  :config
+  (setq split-height-threshold 100))
 
 ;; git-gutter.el
 (use-package git-gutter
