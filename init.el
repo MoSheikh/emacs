@@ -349,6 +349,12 @@
   ("C-c s" . string-inflection-snakecase)
   ("C-c c" . string-inflection-lower-camelcase))
 
+(defun copy (start end)
+  "Copies region using the \\='pbcopy\\=' command on the region from START to END."
+  (interactive "r")
+  (shell-command-on-region start end "pbcopy")
+  (deactivate-mark))
+
 ;;; Ctl-x-5 map
 ;;
 (define-key ctl-x-5-map (kbd "C-x c t") 'helm-top-in-frame)
@@ -374,6 +380,7 @@
 
 ;;; Global-map
 ;;
+(global-set-key (kbd "M-c")                          'copy)
 (global-set-key (kbd "C-M-c")                        'ace-jump-mode)
 (global-set-key (kbd "M-c")                          'undefined)
 (global-set-key (kbd "C-z")                          'undo)
