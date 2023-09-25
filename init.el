@@ -331,10 +331,10 @@
     :innermodes '(poly-css-innermode
 		  poly-web-innermode)))
 
-;; prettier.el
-(use-package prettier
+;; prettier
+(use-package prettier-rc
   :hook
-  ((typescript-mode json-mode) . prettier-mode))
+  ((typescript-mode json-mode) . prettier-rc-mode))
 
 ;; jest
 (use-package jest
