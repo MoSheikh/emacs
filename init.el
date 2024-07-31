@@ -120,7 +120,8 @@
 		(save-excursion
                   (while (search-forward "\\u0000" nil t)
                     (replace-match "" nil t)))
-		(apply oldfn args))))
+		(apply oldfn args)))
+  (setq lsp-file-watch-threshold 10000))
 
 ;; lsp-ui.el
 (use-package lsp-ui
